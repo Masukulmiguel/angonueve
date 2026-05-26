@@ -58,9 +58,10 @@ $isLoggedIn = $user && $user['role'] === 'client';
 .btn-refresh{background:rgba(255,255,255,0.05);border:1px solid var(--card-border)!important;color:var(--text-muted)}
 .btn-refresh:hover{background:rgba(255,255,255,0.1)}
 .preview-frame{flex:1;background:rgba(10,22,40,0.5);position:relative;overflow:hidden;padding:24px;display:flex;align-items:center;justify-content:center}
-.preview-frame iframe{width:100%;height:100%;border:none;display:block;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.3);transition:all 0.4s ease;background:#fff;max-width:100%}
-.preview-frame iframe.tablet-view{max-width:768px;height:90%;border-radius:16px}
-.preview-frame iframe.mobile-view{max-width:375px;max-height:667px;border-radius:24px}
+.device-wrapper{width:100%;height:100%;display:flex;align-items:flex-start;justify-content:center;transition:all 0.4s ease;overflow:auto}
+.device-wrapper.tablet-view{max-width:768px;max-height:90%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);background:#fff}
+.device-wrapper.mobile-view{max-width:375px;max-height:667px;border-radius:24px;box-shadow:0 4px 20px rgba(0,0,0,0.3);background:#fff}
+.device-wrapper iframe{width:100%;height:100%;border:none;display:block;border-radius:inherit;background:#fff}
 .preview-frame .empty-state{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-muted);padding:40px;text-align:center}
 .preview-frame .empty-state i{font-size:3.5rem;margin-bottom:16px;opacity:0.3}
 .preview-frame .empty-state h3{font-size:1.3rem;margin-bottom:8px;color:var(--text)}
@@ -152,7 +153,9 @@ $isLoggedIn = $user && $user['role'] === 'client';
                 <p style="color:var(--text-muted);font-size:0.85rem;">The AI is creating your site based on your request. This may take a few seconds.</p>
             </div>
             <style>@keyframes builderSpin{to{transform:rotate(360deg)}}.loading-state{display:none!important}.loading-state.active{display:flex!important}</style>
-            <iframe id="previewIframe" srcdoc="" style="display:none;"></iframe>
+            <div class="device-wrapper" id="deviceWrapper" style="display:none">
+                <iframe id="previewIframe" srcdoc="" style="display:none;"></iframe>
+            </div>
         </div>
     </section>
 </div>
@@ -218,6 +221,7 @@ function generateSite() {
     btn.disabled = true;
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('loadingState').classList.add('active');
+    document.getElementById('deviceWrapper').style.display = 'none';
     document.getElementById('previewIframe').style.display = 'none';
 
     chatHistory.push({ role: 'user', content: prompt });
@@ -267,30 +271,36 @@ function renderChat() {
 
 function showPreview(html) {
     document.getElementById('emptyState').style.display = 'none';
+    const wrapper = document.getElementById('deviceWrapper');
     const iframe = document.getElementById('previewIframe');
+    wrapper.style.display = 'flex';
     iframe.style.display = 'block';
     html = html.replace('</head>', '<style>body{padding-top:10px!important}</style></head>');
+    html = html.replace('</body>', '<script>document.addEventListener("click",function(e){var t=e.target.closest("a");if(t&&!t.getAttribute("href").startsWith("#"))e.preventDefault()})<\/script></body>');
     iframe.srcdoc = html;
     document.getElementById('btnDownload').disabled = false;
 }
 
 function refreshPreview() {
     if (currentHtml) {
+        const wrapper = document.getElementById('deviceWrapper');
         const iframe = document.getElementById('previewIframe');
+        wrapper.style.display = 'flex';
+        iframe.style.display = 'block';
         iframe.srcdoc = currentHtml;
     }
 }
 
 function setDevice(device) {
-    const iframe = document.getElementById('previewIframe');
-    iframe.classList.remove('tablet-view', 'mobile-view');
+    const wrapper = document.getElementById('deviceWrapper');
+    if (!wrapper) return;
+    wrapper.classList.remove('tablet-view', 'mobile-view');
     if (device !== 'desktop') {
-        iframe.classList.add(device + '-view');
+        wrapper.classList.add(device + '-view');
     }
-    iframe.style.margin = '0 auto';
-    iframe.style.display = 'block';
     document.querySelectorAll('.device-btns button').forEach(b => b.classList.remove('active'));
-    document.querySelector('[data-device="' + device + '"]').classList.add('active');
+    const btn = document.querySelector('[data-device="' + device + '"]');
+    if (btn) btn.classList.add('active');
 }
 
 function handleDownload() {
