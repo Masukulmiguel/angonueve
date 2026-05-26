@@ -93,6 +93,7 @@ $isEmp = $user && $user['role'] === 'employee';
         </a>
         <a href="chat-conversations.php" class="<?= $currentPage === 'chat-conversations.php' ? 'active' : '' ?>"><i class="fas fa-robot"></i> Chatbot</a>
         <a href="settings.php" class="<?= $currentPage === 'settings.php' ? 'active' : '' ?>"><i class="fas fa-cog"></i> Configurações</a>
+        <a href="page-backgrounds.php" class="<?= $currentPage === 'page-backgrounds.php' ? 'active' : '' ?>"><i class="fas fa-image"></i> Fundos de Página</a>
         <a href="activity-log.php" class="<?= $currentPage === 'activity-log.php' ? 'active' : '' ?>"><i class="fas fa-history"></i> Actividades</a>
         <a href="payslips.php" class="<?= $currentPage === 'payslips.php' ? 'active' : '' ?>"><i class="fas fa-file-invoice-dollar"></i> Recibos</a>
         <a href="contracts.php" class="<?= $currentPage === 'contracts.php' ? 'active' : '' ?>"><i class="fas fa-file-signature"></i> Contratos</a>

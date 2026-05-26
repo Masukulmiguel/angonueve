@@ -314,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollToTop();
     initNewsletter();
     initHomeData();
+    initPageBackground();
     trackVisit();
 });
 
@@ -1156,6 +1157,36 @@ function populateCpanelFeatures(features) {
     grid.querySelectorAll('.cpanel-card').forEach((card, i) => {
         card.style.transitionDelay = (i * 0.05) + 's';
     });
+}
+
+function getPageKey() {
+    const path = window.location.pathname;
+    if (path.endsWith('index.html') || path.endsWith('/') || path === '' || path.endsWith('/ANGONUEVE') || path.endsWith('/ANGONUEVE/')) return 'home';
+    if (path.includes('about')) return 'about';
+    if (path.includes('contact')) return 'contact';
+    if (path.includes('servicos')) return 'services';
+    if (path.includes('modelos')) return 'models';
+    return null;
+}
+
+function initPageBackground() {
+    const page = getPageKey();
+    if (!page) return;
+    fetch('api/get-page-bg.php?page=' + page)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.url) {
+                const overlay = document.createElement('div');
+                overlay.className = 'page-bg-overlay';
+                overlay.style.cssText = 'position:fixed;inset:0;z-index:-2;background-image:url(' + JSON.stringify(data.url) + ');background-size:cover;background-position:center;background-attachment:fixed;';
+                document.body.prepend(overlay);
+                const darken = document.createElement('div');
+                darken.className = 'page-bg-darken';
+                darken.style.cssText = 'position:fixed;inset:0;z-index:-1;background:var(--dark);opacity:0.7;';
+                document.body.prepend(darken);
+            }
+        })
+        .catch(() => {});
 }
 
 function escHtml(str) {
