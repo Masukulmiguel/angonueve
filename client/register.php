@@ -122,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
         </div>
     </div>
+<script src="../js/script.js"></script>
 <?php include __DIR__ . '/../includes/spinner.php'; ?>
 </body>
 </html>

@@ -14,6 +14,8 @@ $pages = [
     'contact'  => 'Contacto (contact.html)',
     'services' => 'Serviços (servicos.php)',
     'models'   => 'Modelos (modelos.php)',
+    'login'    => 'Login Cliente (client/login.php)',
+    'register' => 'Registo Cliente (client/register.php)',
 ];
 
 $error = '';

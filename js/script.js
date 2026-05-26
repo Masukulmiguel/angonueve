@@ -1166,6 +1166,8 @@ function getPageKey() {
     if (path.includes('contact')) return 'contact';
     if (path.includes('servicos')) return 'services';
     if (path.includes('modelos')) return 'models';
+    if (path.includes('login')) return 'login';
+    if (path.includes('register')) return 'register';
     return null;
 }
 

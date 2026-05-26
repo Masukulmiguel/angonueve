@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 $page = sanitize($_GET['page'] ?? '');
-$allowed = ['home', 'about', 'contact', 'services', 'models'];
+$allowed = ['home', 'about', 'contact', 'services', 'models', 'login', 'register'];
 
 if (!in_array($page, $allowed)) {
     echo json_encode(['success' => false, 'url' => null]);
