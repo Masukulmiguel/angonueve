@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "username": "ANGONUEVE",
+  "agent": {
+    "designer": {
+      "description": "UI/UX & CSS specialist — glassmorphism, animations, responsive design",
+      "mode": "subagent"
+    },
+    "fullstack": {
+      "description": "PHP, JS, MySQL backend developer — APIs, client area, admin panel",
+      "mode": "subagent"
+    },
+    "content": {
+      "description": "Content & SEO — meta tags, copywriting, consistency, documentation",
+      "mode": "subagent"
+    },
+    "qa": {
+      "description": "Quality assurance — code review, link checking, security audit",
+      "mode": "subagent"
+    }
+  },
+  "instructions": [".opencode/agents/designer.md", ".opencode/agents/fullstack.md", ".opencode/agents/content.md", ".opencode/agents/qa.md"]
+}
