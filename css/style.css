@@ -306,15 +306,16 @@ img {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 20px;
 }
 
 .nav-links a {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     font-weight: 500;
     color: var(--text-muted);
     transition: var(--transition);
     position: relative;
+    white-space: nowrap;
 }
 
 .nav-links a::after {
@@ -341,11 +342,11 @@ img {
 }
 
 .lang-switch {
-    font-size: 0.75rem !important;
+    font-size: 0.7rem !important;
     font-weight: 700 !important;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 4px 12px !important;
+    padding: 3px 10px !important;
     border-radius: 6px;
     border: 1px solid var(--card-border);
     transition: var(--transition);
@@ -364,6 +365,11 @@ img {
 
 .nav-links .lang-switch {
     margin-right: 4px;
+}
+
+.nav-links .btn {
+    padding: 8px 18px;
+    font-size: 0.78rem;
 }
 
 @media (max-width: 768px) {
