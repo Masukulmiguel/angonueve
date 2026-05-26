@@ -29,6 +29,25 @@ if (empty($apiKey)) {
     jsonResponse(['error' => 'Gerador temporariamente indisponível'], 503);
 }
 
+// Limit generations per session/user
+session_start();
+$sessionId = session_id() ?: uniqid('gen_');
+$userId = $_SESSION['user_id'] ?? null;
+$maxAttempts = 3;
+if ($userId) {
+    $count = db()->count('generated_sites', 'user_id = ?', [$userId]);
+} else {
+    $count = db()->count('generated_sites', 'session_id = ?', [$sessionId]);
+}
+$remaining = $maxAttempts - $count;
+if ($remaining <= 0) {
+    jsonResponse([
+        'error' => 'Limite de geração atingido. Já criaste ' . $maxAttempts . ' sites. Contacta-nos se precisares de mais.',
+        'remaining' => 0,
+        'limit' => $maxAttempts
+    ], 429);
+}
+
 $systemPrompt = "Tu és um gerador de sites da ANGONUEVE, uma empresa angolana de tecnologia.
 Gera APENAS código HTML/CSS/JS completo para um site com base no pedido do utilizador.
 
@@ -136,10 +155,6 @@ if ($finishReason === 'MAX_TOKENS') {
 $tokens = $data['usageMetadata']['totalTokenCount'] ?? 0;
 
 // Save to DB
-session_start();
-$sessionId = session_id() ?: uniqid('gen_');
-$userId = $_SESSION['user_id'] ?? null;
-
 try {
     $siteId = db()->insert('generated_sites', [
         'user_id' => $userId,
@@ -158,5 +173,7 @@ jsonResponse([
     'html' => $code,
     'site_id' => $siteId,
     'session_id' => $sessionId,
-    'tokens_used' => $tokens
+    'tokens_used' => $tokens,
+    'remaining' => $remaining - 1,
+    'limit' => $maxAttempts
 ]);

@@ -23,6 +23,7 @@ $isLoggedIn = $user && $user['role'] === 'client';
 .builder-sidebar .sidebar-header h2{font-size:1.1rem;margin:0;display:flex;align-items:center;gap:10px}
 .builder-sidebar .sidebar-header h2 i{color:var(--secondary)}
 .builder-sidebar .sidebar-header p{font-size:0.78rem;color:var(--text-muted);margin:4px 0 0}
+.builder-sidebar .sidebar-header .attempts-badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 12px;border-radius:50px;border:1px solid rgba(255,255,255,0.06);font-size:0.72rem;color:var(--text-muted)}
 .prompt-section{padding:16px 24px;border-bottom:1px solid var(--card-border);flex-shrink:0}
 .prompt-section textarea{width:100%;min-height:100px;padding:12px;border-radius:12px;border:1px solid var(--card-border);background:rgba(255,255,255,0.03);color:var(--text);font-family:'Inter',sans-serif;font-size:0.88rem;resize:vertical;outline:none;transition:border-color 0.3s;box-sizing:border-box}
 .prompt-section textarea:focus{border-color:var(--secondary)}
@@ -106,8 +107,9 @@ $isLoggedIn = $user && $user['role'] === 'client';
 <div class="builder-layout">
     <aside class="builder-sidebar">
         <div class="sidebar-header">
-            <h2><i class="fas fa-magic"></i> Create Site with AI</h2>
-            <p>Describe your ideal website for your business.</p>
+            <h2><i class="fas fa-magic"></i> Create Website with AI</h2>
+            <p>Describe the ideal website for your business.</p>
+            <div class="attempts-badge" id="attemptsBadge"><i class="fas fa-chart-simple"></i> <span id="attemptsCount">3</span> remaining</div>
         </div>
         <div class="prompt-section">
             <textarea id="promptInput" placeholder="E.g.: I want a modern business website with services, team and contact sections. Dark design with blue accents."></textarea>
@@ -195,6 +197,16 @@ let currentSiteId = 0;
 let chatHistory = [];
 let isLoggedIn = <?= $isLoggedIn ? 'true' : 'false' ?>;
 let hasPaid = false;
+let remainingAttempts = 3;
+
+function updateAttempts(count) {
+    remainingAttempts = count;
+    document.getElementById('attemptsCount').textContent = count;
+    if (count <= 0) {
+        document.getElementById('btnGenerate').disabled = true;
+        document.getElementById('btnGenerate').title = 'Generation limit reached';
+    }
+}
 
 function generateSite() {
     const input = document.getElementById('promptInput');
@@ -224,11 +236,13 @@ function generateSite() {
         if (data.success && data.html) {
             currentHtml = data.html;
             currentSiteId = data.site_id || 0;
+            if (data.remaining !== undefined) updateAttempts(data.remaining);
             chatHistory.push({ role: 'assistant', content: '✅ Site generated successfully! You can preview it below.' });
             renderChat();
             showPreview(data.html);
         } else {
             const err = data.error || 'Unknown error generating the site';
+            if (data.limit && data.remaining !== undefined) updateAttempts(data.remaining);
             chatHistory.push({ role: 'assistant', content: '❌ ' + err });
             renderChat();
         }
