@@ -313,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initChatbot();
     initScrollToTop();
     initNewsletter();
+    initHomeData();
     trackVisit();
 });
 
@@ -940,92 +941,228 @@ function initNewsletter() {
     });
 }
 
-function initTeamCarousel() {
-    const section = document.getElementById('teamSection');
-    if (!section) return;
+function createCarousel(sectionId, trackId, dotsId, prevClass, nextClass) {
+    const section = document.getElementById(sectionId);
+    if (!section) return null;
 
-    fetch('api/check-auth.php', { credentials: 'same-origin' })
+    const track = document.getElementById(trackId);
+    const dotsContainer = document.getElementById(dotsId);
+    const prevBtn = section.querySelector('.' + prevClass);
+    const nextBtn = section.querySelector('.' + nextClass);
+    if (!track) return null;
+
+    let currentIndex = 0;
+    let cardWidth = 0;
+    let gap = 20;
+    let visibleCards = 1;
+
+    function calcDimensions() {
+        const cards = track.children;
+        if (cards.length === 0) return;
+        const wrapper = track.parentElement;
+        const wrapperWidth = wrapper.clientWidth;
+        cardWidth = cards[0].offsetWidth;
+        gap = 20;
+        const totalCardSpace = cardWidth + gap;
+        visibleCards = Math.max(1, Math.floor((wrapperWidth + gap) / totalCardSpace));
+        const maxIndex = Math.max(0, cards.length - visibleCards);
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+    }
+
+    function update() {
+        const cards = track.children;
+        if (cards.length === 0) return;
+        const maxIndex = Math.max(0, cards.length - visibleCards);
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+        const offset = -(currentIndex * (cardWidth + gap));
+        track.style.transform = 'translateX(' + offset + 'px)';
+        updateDots();
+        updateArrows();
+    }
+
+    function updateDots() {
+        if (!dotsContainer) return;
+        const cards = track.children;
+        if (cards.length === 0) return;
+        const totalPages = Math.max(1, cards.length - visibleCards + 1);
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < totalPages; i++) {
+            const dot = document.createElement('span');
+            dot.className = i === currentIndex ? 'active' : '';
+            dot.addEventListener('click', () => { currentIndex = i; update(); });
+            dotsContainer.appendChild(dot);
+        }
+    }
+
+    function updateArrows() {
+        if (!prevBtn || !nextBtn) return;
+        const cards = track.children;
+        if (cards.length === 0) return;
+        const maxIndex = Math.max(0, cards.length - visibleCards);
+        prevBtn.style.opacity = currentIndex <= 0 ? '0.3' : '1';
+        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
+    }
+
+    function nextSlide() {
+        const cards = track.children;
+        if (cards.length === 0) return;
+        const maxIndex = Math.max(0, cards.length - visibleCards);
+        if (currentIndex < maxIndex) { currentIndex++; update(); }
+    }
+
+    function prevSlide() {
+        if (currentIndex > 0) { currentIndex--; update(); }
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+    calcDimensions();
+    update();
+    window.addEventListener('resize', () => { calcDimensions(); update(); });
+
+    return { next: nextSlide, prev: prevSlide, update, refresh: () => { calcDimensions(); update(); } };
+}
+
+function initHomeData() {
+    const teamSection = document.getElementById('teamSection');
+    const testimonialsSection = document.getElementById('testimonialsSection');
+    const clientsSection = document.getElementById('clientsSection');
+    const cpanelSection = document.getElementById('cpanelFeatures');
+
+    fetch('api/get-home-data.php')
         .then(res => res.json())
         .then(data => {
-            if (data.isAdmin) {
-                section.style.display = '';
-                setupCarousel();
+            if (!data.success) return;
+
+            if (data.employees && data.employees.length > 0) {
+                populateTeam(data.employees);
+                if (teamSection) teamSection.style.display = '';
             }
+
+            if (data.testimonials && data.testimonials.length > 0) {
+                populateTestimonials(data.testimonials);
+                if (testimonialsSection) testimonialsSection.style.display = '';
+            }
+
+            if (data.hasClients && data.clients && data.clients.length > 0) {
+                populateClientLogos(data.clients);
+                if (clientsSection) clientsSection.style.display = '';
+            }
+
+            if (data.cpanelFeatures && data.cpanelFeatures.length > 0) {
+                populateCpanelFeatures(data.cpanelFeatures);
+                if (cpanelSection) cpanelSection.style.display = '';
+            }
+
+            setTimeout(initScrollAnimations, 100);
         })
         .catch(() => {});
+}
 
-    function setupCarousel() {
-        const track = document.getElementById('teamTrack');
-        const dotsContainer = document.getElementById('teamDots');
-        const prevBtn = section.querySelector('.team-prev');
-        const nextBtn = section.querySelector('.team-next');
-        if (!track) return;
+function populateTeam(employees) {
+    const track = document.getElementById('teamTrack');
+    if (!track) return;
 
-        const cards = track.querySelectorAll('.team-card');
-        if (cards.length === 0) return;
+    track.innerHTML = '';
+    employees.forEach(emp => {
+        const card = document.createElement('div');
+        card.className = 'team-card';
+        const photoHtml = emp.photo
+            ? `<img src="${emp.photo}" alt="${emp.name}" class="team-avatar-img" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--card-border);margin:0 auto 16px;display:block;">`
+            : `<div class="team-avatar"><i class="fas fa-user-tie"></i></div>`;
+        card.innerHTML = `
+            ${photoHtml}
+            <h3>${escHtml(emp.name)}</h3>
+            <span class="team-role">${escHtml(emp.position)}</span>
+            ${emp.bio ? `<p class="team-bio">${escHtml(emp.bio)}</p>` : ''}
+            <div class="team-social">
+                ${emp.email ? `<a href="mailto:${escHtml(emp.email)}" aria-label="Email"><i class="fas fa-envelope"></i></a>` : ''}
+            </div>
+        `;
+        track.appendChild(card);
+    });
 
-        let currentIndex = 0;
-        let cardWidth = 0;
-        let gap = 20;
-        let visibleCards = 1;
+    const carousel = createCarousel('teamSection', 'teamTrack', 'teamDots', 'team-prev', 'team-next');
+}
 
-        function calcDimensions() {
-            if (cards.length === 0) return;
-            const wrapper = track.parentElement;
-            const wrapperWidth = wrapper.clientWidth;
-            cardWidth = cards[0].offsetWidth;
-            gap = 20;
-            const totalCardSpace = cardWidth + gap;
-            visibleCards = Math.max(1, Math.floor((wrapperWidth + gap) / totalCardSpace));
-            const maxIndex = Math.max(0, cards.length - visibleCards);
-            if (currentIndex > maxIndex) currentIndex = maxIndex;
-        }
+function populateTestimonials(testimonials) {
+    const track = document.getElementById('testimonialsTrack');
+    if (!track) return;
 
-        function update() {
-            const maxIndex = Math.max(0, cards.length - visibleCards);
-            if (currentIndex > maxIndex) currentIndex = maxIndex;
-            const offset = -(currentIndex * (cardWidth + gap));
-            track.style.transform = 'translateX(' + offset + 'px)';
-            updateDots();
-            updateArrows();
-        }
+    track.innerHTML = '';
+    testimonials.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card';
+        const stars = '<i class="fas fa-star"></i>'.repeat(t.rating || 5);
+        const photoHtml = t.photo
+            ? `<img src="${t.photo}" alt="${t.name}" class="testimonial-avatar-img" style="width:56px;height:56px;border-radius:50%;object-fit:cover;">`
+            : `<div class="testimonial-avatar"><i class="fas fa-user"></i></div>`;
+        card.innerHTML = `
+            <div class="testimonial-stars">${stars}</div>
+            <p class="testimonial-text">"${escHtml(t.text)}"</p>
+            <div class="testimonial-author">
+                ${photoHtml}
+                <div>
+                    <h4>${escHtml(t.name)}</h4>
+                    <span>Cliente</span>
+                </div>
+            </div>
+        `;
+        track.appendChild(card);
+    });
 
-        function updateDots() {
-            if (!dotsContainer) return;
-            const totalPages = Math.max(1, cards.length - visibleCards + 1);
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < totalPages; i++) {
-                const dot = document.createElement('span');
-                dot.className = i === currentIndex ? 'active' : '';
-                dot.addEventListener('click', () => { currentIndex = i; update(); });
-                dotsContainer.appendChild(dot);
-            }
-        }
+    const carousel = createCarousel('testimonialsSection', 'testimonialsTrack', 'testimonialsDots', 'testimonial-prev', 'testimonial-next');
+}
 
-        function updateArrows() {
-            if (!prevBtn || !nextBtn) return;
-            const maxIndex = Math.max(0, cards.length - visibleCards);
-            prevBtn.style.opacity = currentIndex <= 0 ? '0.3' : '1';
-            nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
-        }
+function populateClientLogos(clients) {
+    const track = document.getElementById('clientsTrack');
+    if (!track) return;
 
-        function nextSlide() {
-            const maxIndex = Math.max(0, cards.length - visibleCards);
-            if (currentIndex < maxIndex) { currentIndex++; update(); }
-        }
+    track.innerHTML = '';
+    clients.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'client-card';
+        const initials = c.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+        card.innerHTML = `
+            <div class="client-logo-placeholder">
+                <span class="client-initials">${escHtml(initials)}</span>
+            </div>
+            <h4>${escHtml(c.name)}</h4>
+        `;
+        track.appendChild(card);
+    });
 
-        function prevSlide() {
-            if (currentIndex > 0) { currentIndex--; update(); }
-        }
+    const carousel = createCarousel('clientsSection', 'clientsTrack', 'clientsDots', 'clients-prev', 'clients-next');
+}
 
-        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+function populateCpanelFeatures(features) {
+    const grid = document.getElementById('cpanelGrid');
+    if (!grid) return;
 
-        calcDimensions();
-        update();
-        window.addEventListener('resize', () => { calcDimensions(); update(); });
-    }
+    grid.innerHTML = '';
+    features.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'cpanel-card glass fade-in';
+        card.innerHTML = `
+            <div class="cpanel-icon"><i class="fas ${escHtml(f.icon)}"></i></div>
+            <h3 class="cpanel-title">${escHtml(f.title)}</h3>
+            <p class="cpanel-desc">${escHtml(f.description)}</p>
+        `;
+        grid.appendChild(card);
+    });
+
+    // stagger animation
+    grid.querySelectorAll('.cpanel-card').forEach((card, i) => {
+        card.style.transitionDelay = (i * 0.05) + 's';
+    });
+}
+
+function escHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
 }
 
 window.addEventListener('DOMContentLoaded', setActiveNav);
-window.addEventListener('DOMContentLoaded', initTeamCarousel);

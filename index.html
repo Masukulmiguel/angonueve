@@ -268,6 +268,77 @@
 
     <hr class="section-divider">
 
+    <section class="section" id="cpanelFeatures" style="display:none;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-tag">cPanel Included</span>
+                <h2 class="section-title">Tudo o que o <span>cPanel</span> oferece</h2>
+                <p class="section-subtitle">Painel de controlo completo para gerir a sua hospedagem com facilidade</p>
+            </div>
+            <div class="cpanel-grid" id="cpanelGrid">
+            </div>
+        </div>
+    </section>
+
+    <section class="section testimonials-section" id="testimonialsSection" style="display:none;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-tag">Depoimentos</span>
+                <h2 class="section-title">O que os nossos <span>clientes</span> dizem</h2>
+                <p class="section-subtitle">A satisfação dos nossos clientes é o nosso maior orgulho</p>
+            </div>
+            <div class="testimonials-carousel">
+                <button class="testimonial-arrow testimonial-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+                <div class="testimonials-track-wrapper">
+                    <div class="testimonials-track" id="testimonialsTrack">
+                    </div>
+                </div>
+                <button class="testimonial-arrow testimonial-next" aria-label="Seguinte"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="testimonials-dots" id="testimonialsDots"></div>
+        </div>
+    </section>
+
+    <section class="team-section" id="teamSection" style="display:none;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Equipa</span>
+                <h2>A Nossa Equipa</h2>
+                <p>Conheça os profissionais que fazem a ANGONUEVE acontecer.</p>
+            </div>
+            <div class="team-carousel">
+                <button class="team-arrow team-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+                <div class="team-track-wrapper">
+                    <div class="team-track" id="teamTrack">
+                    </div>
+                </div>
+                <button class="team-arrow team-next" aria-label="Seguinte"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="team-dots" id="teamDots"></div>
+        </div>
+    </section>
+
+    <section class="section clients-section" id="clientsSection" style="display:none;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-tag">Clientes</span>
+                <h2 class="section-title">Empresas que <span>confiam</span> em nós</h2>
+                <p class="section-subtitle">Organizações que escolheram a ANGONUEVE para as suas soluções web</p>
+            </div>
+            <div class="clients-carousel">
+                <button class="clients-arrow clients-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+                <div class="clients-track-wrapper">
+                    <div class="clients-track" id="clientsTrack">
+                    </div>
+                </div>
+                <button class="clients-arrow clients-next" aria-label="Seguinte"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="clients-dots" id="clientsDots"></div>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+
     <section class="section" id="contacto">
         <div class="container">
             <div class="section-header fade-in">
@@ -344,85 +415,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="team-section" id="teamSection" style="display:none;">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Equipa</span>
-                <h2>A Nossa Equipa</h2>
-                <p>Conheça os profissionais que fazem a ANGONUEVE acontecer.</p>
-            </div>
-            <div class="team-carousel">
-                <button class="team-arrow team-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-                <div class="team-track-wrapper">
-                    <div class="team-track" id="teamTrack">
-                        <div class="team-card">
-                            <div class="team-avatar"><i class="fas fa-user-tie"></i></div>
-                            <h3>Miguel Silva</h3>
-                            <span class="team-role">CEO & Fundador</span>
-                            <p class="team-bio">Lidera a equipa com visão estratégica e paixão pela inovação tecnológica.</p>
-                            <div class="team-social">
-                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="team-card">
-                            <div class="team-avatar"><i class="fas fa-laptop-code"></i></div>
-                            <h3>Ana Santos</h3>
-                            <span class="team-role">CTO</span>
-                            <p class="team-bio">Responsável pela arquitectura técnica e inovação dos produtos.</p>
-                            <div class="team-social">
-                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="team-card">
-                            <div class="team-avatar"><i class="fas fa-paint-brush"></i></div>
-                            <h3>Pedro Costa</h3>
-                            <span class="team-role">Designer Lead</span>
-                            <p class="team-bio">Cria experiências visuais incríveis com foco no utilizador.</p>
-                            <div class="team-social">
-                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="team-card">
-                            <div class="team-avatar"><i class="fas fa-bullhorn"></i></div>
-                            <h3>Maria Fernandes</h3>
-                            <span class="team-role">Marketing Manager</span>
-                            <p class="team-bio">Estratégias de marketing digital que conectam marcas e pessoas.</p>
-                            <div class="team-social">
-                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="team-card">
-                            <div class="team-avatar"><i class="fas fa-headset"></i></div>
-                            <h3>João Marcelino</h3>
-                            <span class="team-role">Suporte Técnico</span>
-                            <p class="team-bio">Garante que todos os clientes recebem o melhor suporte possível.</p>
-                            <div class="team-social">
-                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="team-card">
-                            <div class="team-avatar"><i class="fas fa-chart-line"></i></div>
-                            <h3>Luciana Paulo</h3>
-                            <span class="team-role">Gestora de Projectos</span>
-                            <p class="team-bio">Coordena projectos e garante entregas dentro do prazo e qualidade.</p>
-                            <div class="team-social">
-                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="team-arrow team-next" aria-label="Seguinte"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="team-dots" id="teamDots"></div>
         </div>
     </section>
 

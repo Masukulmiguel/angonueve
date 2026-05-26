@@ -38,12 +38,41 @@
         .cta-section{text-align:center;padding:80px 0;background:radial-gradient(ellipse at center,rgba(0,212,255,0.04),transparent 60%)}
         .cta-section h2{font-size:2rem;margin-bottom:12px}
         .cta-section p{color:var(--text-muted);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto}
+
+        /* Modal */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn 0.2s}
+        .modal-overlay.active{display:flex}
+        .modal-box{background:var(--primary);border:1px solid var(--card-border);border-radius:var(--radius);padding:40px;max-width:460px;width:100%;position:relative;animation:slideUp 0.3s}
+        .modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:1px solid var(--card-border);background:transparent;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:1.1rem}
+        .modal-close:hover{background:var(--card-bg);border-color:var(--secondary);color:var(--secondary)}
+        .modal-icon{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(0,153,204,0.05));border:1px solid rgba(0,212,255,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;color:var(--secondary)}
+        .modal-box h2{text-align:center;font-size:1.3rem;margin-bottom:4px}
+        .modal-box .modal-sub{text-align:center;font-size:0.88rem;color:var(--text-muted);margin-bottom:24px}
+        .modal-box .form-group{margin-bottom:14px}
+        .modal-box .form-group label{display:block;font-size:0.82rem;font-weight:500;color:var(--text-muted);margin-bottom:6px}
+        .modal-box .form-group input{width:100%;padding:12px 14px;border-radius:var(--radius-sm);border:1px solid var(--card-border);background:var(--dark);color:var(--text);font-size:0.9rem;font-family:'Inter',sans-serif;transition:border-color 0.3s;outline:none}
+        .modal-box .form-group input:focus{border-color:var(--secondary)}
+        .modal-box .btn-submit{width:100%;padding:14px;border-radius:var(--radius-sm);border:none;background:var(--gradient-2);color:var(--primary);font-weight:600;font-size:0.95rem;cursor:pointer;transition:opacity 0.3s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px}
+        .modal-box .btn-submit:hover{opacity:0.9}
+        .modal-box .btn-submit:disabled{opacity:0.5;cursor:not-allowed}
+        .modal-success{text-align:center;display:none}
+        .modal-success.active{display:block}
+        .modal-success-icon{width:64px;height:64px;border-radius:50%;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.6rem;color:#00e676}
+        .modal-success h2{font-size:1.3rem;margin-bottom:8px}
+        .modal-success p{font-size:0.9rem;color:var(--text-muted);margin-bottom:20px;line-height:1.6}
+        .modal-success .btn-whatsapp{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--radius-sm);background:#25d366;color:white;font-weight:600;font-size:0.9rem;text-decoration:none;transition:opacity 0.3s;font-family:'Inter',sans-serif}
+        .modal-success .btn-whatsapp:hover{opacity:0.9}
+        .modal-error{text-align:center;color:#ff4444;font-size:0.85rem;margin-top:10px;display:none}
+
         @media(max-width:768px){
             .page-header{padding:100px 0 40px}
             .page-header h1{font-size:1.8rem}
             .template-grid{grid-template-columns:1fr;padding:40px 0}
             .template-card .preview{height:200px}
+            .modal-box{padding:28px 20px}
         }
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     </style>
 </head>
 <body>
@@ -94,7 +123,7 @@
                 <div class="features"><span>Responsivo</span><span>SEO</span><span>5 Secções</span><span>Contacto</span></div>
                 <div class="actions">
                     <a href="templates/business-pro.html" target="_blank" class="btn btn-preview"><i class="fas fa-eye"></i> Ver</a>
-                    <a href="orcamento.php?service=criacao-sites&template=business-pro" class="btn btn-order"><i class="fas fa-shopping-cart"></i> Solicitar</a>
+                    <button class="btn btn-order" data-template="Business Pro" data-category="Empresarial" data-service="criacao-sites" onclick="openOrderModal(this)"><i class="fas fa-shopping-cart"></i> Solicitar</button>
                 </div>
             </div>
         </div>
@@ -108,7 +137,7 @@
                 <div class="features"><span>Galeria</span><span>Filtros</span><span>Depoimentos</span><span>Skills</span></div>
                 <div class="actions">
                     <a href="templates/creative-portfolio.html" target="_blank" class="btn btn-preview"><i class="fas fa-eye"></i> Ver</a>
-                    <a href="orcamento.php?service=criacao-sites&template=creative-portfolio" class="btn btn-order"><i class="fas fa-shopping-cart"></i> Solicitar</a>
+                    <button class="btn btn-order" data-template="Creative Portfolio" data-category="Portfolio" data-service="criacao-sites" onclick="openOrderModal(this)"><i class="fas fa-shopping-cart"></i> Solicitar</button>
                 </div>
             </div>
         </div>
@@ -122,7 +151,7 @@
                 <div class="features"><span>Conversão</span><span>Planos</span><span>CTA</span><span>Formulário</span></div>
                 <div class="actions">
                     <a href="templates/landing-page.html" target="_blank" class="btn btn-preview"><i class="fas fa-eye"></i> Ver</a>
-                    <a href="orcamento.php?service=criacao-sites&template=landing-page" class="btn btn-order"><i class="fas fa-shopping-cart"></i> Solicitar</a>
+                    <button class="btn btn-order" data-template="SmartLead" data-category="Landing Page" data-service="criacao-sites" onclick="openOrderModal(this)"><i class="fas fa-shopping-cart"></i> Solicitar</button>
                 </div>
             </div>
         </div>
@@ -136,7 +165,7 @@
                 <div class="features"><span>Menu Digital</span><span>Galeria</span><span>Reservas</span><span>Localização</span></div>
                 <div class="actions">
                     <a href="templates/restaurante.html" target="_blank" class="btn btn-preview"><i class="fas fa-eye"></i> Ver</a>
-                    <a href="orcamento.php?service=criacao-sites&template=restaurante" class="btn btn-order"><i class="fas fa-shopping-cart"></i> Solicitar</a>
+                    <button class="btn btn-order" data-template="Sabores &amp; Arte" data-category="Restaurante" data-service="criacao-sites" onclick="openOrderModal(this)"><i class="fas fa-shopping-cart"></i> Solicitar</button>
                 </div>
             </div>
         </div>
@@ -150,7 +179,7 @@
                 <div class="features"><span>Sidebar</span><span>Tags</span><span>Social</span><span>Paginação</span></div>
                 <div class="actions">
                     <a href="templates/personal-blog.html" target="_blank" class="btn btn-preview"><i class="fas fa-eye"></i> Ver</a>
-                    <a href="orcamento.php?service=criacao-sites&template=personal-blog" class="btn btn-order"><i class="fas fa-shopping-cart"></i> Solicitar</a>
+                    <button class="btn btn-order" data-template="Personal Blog" data-category="Blog" data-service="criacao-sites" onclick="openOrderModal(this)"><i class="fas fa-shopping-cart"></i> Solicitar</button>
                 </div>
             </div>
         </div>
@@ -164,7 +193,7 @@
                 <div class="features"><span>Carrinho</span><span>Produtos</span><span>Categorias</span><span>Busca</span></div>
                 <div class="actions">
                     <a href="templates/ecommerce.html" target="_blank" class="btn btn-preview"><i class="fas fa-eye"></i> Ver</a>
-                    <a href="orcamento.php?service=criacao-sites&template=ecommerce" class="btn btn-order"><i class="fas fa-shopping-cart"></i> Solicitar</a>
+                    <button class="btn btn-order" data-template="TechStore" data-category="E-commerce" data-service="criacao-sites" onclick="openOrderModal(this)"><i class="fas fa-shopping-cart"></i> Solicitar</button>
                 </div>
             </div>
         </div>
@@ -177,6 +206,40 @@
             <a href="orcamento.php" class="btn btn-primary" style="padding:16px 40px;font-size:1rem;"><i class="fas fa-paper-plane"></i> Pedir Orçamento Personalizado</a>
         </div>
     </section>
+
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeOrderModal()"><i class="fas fa-times"></i></button>
+            <div id="modalForm">
+                <div class="modal-icon"><i class="fas fa-shopping-cart"></i></div>
+                <h2>Solicitar Template</h2>
+                <p class="modal-sub" id="modalTemplateInfo">Business Pro</p>
+                <input type="hidden" id="modalTemplateName">
+                <input type="hidden" id="modalServiceId">
+                <div class="form-group">
+                    <label for="modalName">Nome completo</label>
+                    <input type="text" id="modalName" placeholder="O seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="modalEmail">Email</label>
+                    <input type="email" id="modalEmail" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="modalPhone">Telefone</label>
+                    <input type="tel" id="modalPhone" placeholder="+244 900 000 000" required>
+                </div>
+                <button class="btn-submit" id="modalSubmitBtn" onclick="submitOrder()"><i class="fas fa-paper-plane"></i> Solicitar</button>
+                <div class="modal-error" id="modalError"></div>
+            </div>
+            <div class="modal-success" id="modalSuccess">
+                <div class="modal-success-icon"><i class="fas fa-check-circle"></i></div>
+                <h2>Pedido Recebido!</h2>
+                <p>Recebemos o seu pedido do template. Entraremos em contacto consigo em breve pelo WhatsApp para confirmar os detalhes.</p>
+                <a href="#" id="modalWhatsAppLink" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> Falar pelo WhatsApp</a>
+                <button class="btn-submit" style="margin-top:12px;background:var(--card-bg);color:var(--text);border:1px solid var(--card-border)" onclick="closeOrderModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="container">
@@ -226,6 +289,96 @@
 
     <button class="scroll-top" id="scrollTop" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
     <script src="js/script.js"></script>
+    <script>
+    function openOrderModal(btn) {
+        const name = btn.getAttribute('data-template');
+        const service = btn.getAttribute('data-service');
+        document.getElementById('modalTemplateName').value = name;
+        document.getElementById('modalServiceId').value = service;
+        document.getElementById('modalTemplateInfo').textContent = name;
+        document.getElementById('modalForm').style.display = '';
+        document.getElementById('modalSuccess').classList.remove('active');
+        document.getElementById('modalError').style.display = 'none';
+        document.getElementById('modalSubmitBtn').disabled = false;
+        document.getElementById('modalSubmitBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Solicitar';
+        document.getElementById('modalName').value = '';
+        document.getElementById('modalEmail').value = '';
+        document.getElementById('modalPhone').value = '';
+        document.getElementById('orderModal').classList.add('active');
+    }
+
+    function closeOrderModal() {
+        document.getElementById('orderModal').classList.remove('active');
+    }
+
+    document.getElementById('orderModal').addEventListener('click', function(e) {
+        if (e.target === this) closeOrderModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeOrderModal();
+    });
+
+    function submitOrder() {
+        const name = document.getElementById('modalName').value.trim();
+        const email = document.getElementById('modalEmail').value.trim();
+        const phone = document.getElementById('modalPhone').value.trim();
+        const template = document.getElementById('modalTemplateName').value;
+        const service = document.getElementById('modalServiceId').value;
+        const errorEl = document.getElementById('modalError');
+
+        if (!name || !email || !phone) {
+            errorEl.textContent = 'Preencha todos os campos.';
+            errorEl.style.display = 'block';
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            errorEl.textContent = 'Insira um email válido.';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        errorEl.style.display = 'none';
+        const btn = document.getElementById('modalSubmitBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A enviar...';
+
+        fetch('api/order.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                customer_name: name,
+                customer_email: email,
+                customer_phone: phone,
+                service_id: service,
+                plan_name: 'Template: ' + template,
+                payment_type: 'onetime',
+                price_monthly: 0
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('modalForm').style.display = 'none';
+                document.getElementById('modalSuccess').classList.add('active');
+                if (data.whatsapp_url) {
+                    document.getElementById('modalWhatsAppLink').href = data.whatsapp_url;
+                }
+            } else {
+                errorEl.textContent = data.error || 'Erro ao enviar. Tente novamente.';
+                errorEl.style.display = 'block';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Solicitar';
+            }
+        })
+        .catch(() => {
+            errorEl.textContent = 'Erro de conexão. Tente novamente.';
+            errorEl.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Solicitar';
+        });
+    }
+    </script>
     <div id="pageLoader" class="page-loader"><div class="loader-spinner"><i class="fas fa-circle-notch fa-spin"></i></div></div>
     </main>
 </body>
