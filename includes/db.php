@@ -14,7 +14,8 @@ class Database {
                 PDO::ATTR_EMULATE_PREPARES => false,
             ]);
         } catch (PDOException $e) {
-            die('Database connection failed: ' . $e->getMessage());
+            error_log('Database connection failed: ' . $e->getMessage());
+            die('Erro interno. Tenta novamente mais tarde.');
         }
     }
 

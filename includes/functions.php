@@ -233,7 +233,11 @@ function getRevenueStats($startDate = null, $endDate = null) {
         $params
     )['total'];
 
-    $totalPaid = db()->count('invoices', "status = 'paid'" . ($startDate ? " AND paid_at >= '$startDate'" : '') . ($endDate ? " AND paid_at <= '$endDate 23:59:59'" : ''));
+    $totalPaidWhere = "status = 'paid'";
+    $totalPaidParams = [];
+    if ($startDate) { $totalPaidWhere .= ' AND paid_at >= ?'; $totalPaidParams[] = $startDate; }
+    if ($endDate) { $totalPaidWhere .= ' AND paid_at <= ?'; $totalPaidParams[] = $endDate . ' 23:59:59'; }
+    $totalPaid = db()->count('invoices', $totalPaidWhere, $totalPaidParams);
 
     $monthlyRevenue = db()->fetchAll(
         "SELECT DATE_FORMAT(i.paid_at, '%Y-%m') as month, COALESCE(SUM(i.total), 0) as total, COUNT(*) as count

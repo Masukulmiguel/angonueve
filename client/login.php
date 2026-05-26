@@ -3,7 +3,8 @@ require_once __DIR__ . '/../includes/auth.php';
 
 if (isLoggedIn()) {
     if ($_SESSION['user_role'] === 'client') {
-        $redirect = $_GET['redirect'] ?? 'dashboard.php';
+        $allowed = ['dashboard.php', 'profile.php', 'invoices.php', 'support.php', 'orcamento.php'];
+        $redirect = in_array($_GET['redirect'] ?? '', $allowed) ? $_GET['redirect'] : 'dashboard.php';
         header('Location: ' . $redirect);
         exit;
     }
