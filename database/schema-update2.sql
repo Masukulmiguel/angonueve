@@ -107,7 +107,7 @@ INSERT IGNORE INTO services_db (slug, name, description, short_description, icon
 '["Contas com domínio próprio","Anti-spam avançado","Webmail e Outlook","Sincronização multi-dispositivo","Painel de gestão","Suporte IMAP/POP3/SMTP"]',
 3000.00, 30000.00, NULL, 3),
 
-('criacao-websites', 'Criação de Websites',
+('criacao-sites', 'Criação de Sites Profissionais',
 'Desenvolvimento de websites profissionais e responsivos, adaptados às necessidades específicas de cada Cliente. Design personalizado, otimização para motores de busca (SEO), integração com redes sociais, formulários de contacto e painel de gestão de conteúdo. Ideais para empresas, lojas virtuais, portfolios e projetos pessoais que desejam uma presença online de destaque.',
 'Websites profissionais e responsivos com design personalizado, SEO e painel de gestão de conteúdo incluído.',
 'fa-code',
