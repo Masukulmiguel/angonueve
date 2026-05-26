@@ -40,6 +40,10 @@ REGRAS IMPORTANTES:
 5. Inclui navegação básica, secções relevantes e rodapé.
 6. TODO o código deve estar EM PORTUGUÊS DE ANGOLA (textos visíveis).
 7. NÃO uses frameworks como Bootstrap, Tailwind, React, etc.
+7b. A navegação DEVE usar links com hash (#servicos, #contacto, etc) que correspondam a IDs reais nas secções.
+7c. As secções DEVEM ter scroll-margin-top:80px para compensar o header fixo.
+7d. O conteúdo principal (main ou primeira section) deve ter padding-top suficiente (mínimo 60px) para não ficar colado ao header.
+7e. Cria UM menu de navegação responsivo com hamburguer para mobile (menu que abre/fecha com JavaScript simples).
 8. Gera APENAS o código HTML, sem markdown, sem explicações, sem ```html ... ```.
 9. O código deve ser seguro e não conter scripts maliciosos.
 10. Usa cores modernas: fundo #0a1628, texto #e0e6ed, accent #00d4ff.
@@ -137,7 +141,7 @@ $sessionId = session_id() ?: uniqid('gen_');
 $userId = $_SESSION['user_id'] ?? null;
 
 try {
-    db()->insert('generated_sites', [
+    $siteId = db()->insert('generated_sites', [
         'user_id' => $userId,
         'session_id' => $sessionId,
         'prompt_text' => $prompt,
@@ -145,7 +149,6 @@ try {
         'tokens_used' => $tokens,
         'status' => 'draft'
     ]);
-    $siteId = db()->lastInsertId();
 } catch (Exception $e) {
     $siteId = 0;
 }

@@ -42,7 +42,7 @@ $sessionFilter = sanitize($_GET['session'] ?? '');
 $where = '';
 $params = [];
 if ($sessionFilter) {
-    $where = 'WHERE session_id = ?';
+    $where = 'session_id = ?';
     $params[] = $sessionFilter;
 }
 

@@ -100,7 +100,7 @@ $perPage = ITEMS_PER_PAGE;
 $offset = ($page - 1) * $perPage;
 $where = '';
 $params = [];
-if ($status) { $where = 'WHERE status = ?'; $params[] = $status; }
+if ($status) { $where = 'status = ?'; $params[] = $status; }
 $total = db()->count('orders', $where, $params);
 $orders = db()->fetchAll("SELECT * FROM orders {$where} ORDER BY created_at DESC LIMIT ? OFFSET ?", array_merge($params, [$perPage, $offset]));
 ?>

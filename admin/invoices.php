@@ -51,10 +51,10 @@ if ($action === 'create' || $action === 'edit') {
             } else {
                 $data['invoice_no'] = generateInvoiceNo();
                 $data['created_by'] = $user['id'];
-                db()->insert('invoices', $data);
+                $data['id'] = db()->insert('invoices', $data);
                 logActivity($user['id'], 'create', "Factura {$data['invoice_no']} criada");
                 try {
-                    $invLink = SITE_URL . '/admin/invoice-pdf.php?id=' . db()->lastInsertId();
+                    $invLink = SITE_URL . '/admin/invoice-pdf.php?id=' . $data['id'];
                     $html = emailTemplateInvoiceCreated($data['client_name'], $data['invoice_no'], $data['total'], $invLink);
                     sendEmail($data['client_email'], 'Factura Criada - ' . $data['invoice_no'], $html);
                 } catch (Exception $e) {

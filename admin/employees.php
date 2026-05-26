@@ -58,14 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
         if (!$error) {
             $hashed = password_hash($password, PASSWORD_DEFAULT);
-            db()->insert('users', [
+            $uid = db()->insert('users', [
                 'name' => $name, 'email' => $email, 'phone' => $phone,
                 'password' => $hashed, 'role' => 'employee', 'status' => 'active',
                 'photo' => $photo, 'position' => $position,
                 'salary' => $salary > 0 ? $salary : null,
                 'function_desc' => $functionDesc, 'hire_date' => $hireDate ?: null
             ]);
-            $uid = db()->lastInsertId();
             setEmployeePermissions($uid, $perms);
             logActivity($user['id'], 'add_employee', "Funcionário #{$uid} {$name} criado");
             $success = 'Funcionário adicionado com sucesso!';

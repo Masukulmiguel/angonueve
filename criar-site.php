@@ -17,7 +17,7 @@ $isLoggedIn = $user && $user['role'] === 'client';
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" type="image/png" href="images/logo.png">
 <style>
-.builder-layout{display:grid;grid-template-columns:380px 1fr;height:calc(100vh - 64px);margin-top:64px;overflow:hidden}
+.builder-layout{display:grid;grid-template-columns:380px 1fr;height:calc(100vh - 64px - 24px);margin-top:64px;padding-top:24px;overflow:hidden}
 .builder-sidebar{background:rgba(10,22,40,0.98);border-right:1px solid var(--card-border);display:flex;flex-direction:column;overflow:hidden}
 .builder-sidebar .sidebar-header{padding:20px 24px;border-bottom:1px solid var(--card-border);flex-shrink:0}
 .builder-sidebar .sidebar-header h2{font-size:1.1rem;margin:0;display:flex;align-items:center;gap:10px}
@@ -56,8 +56,10 @@ $isLoggedIn = $user && $user['role'] === 'client';
 .btn-download:disabled{opacity:0.4;cursor:not-allowed}
 .btn-refresh{background:rgba(255,255,255,0.05);border:1px solid var(--card-border)!important;color:var(--text-muted)}
 .btn-refresh:hover{background:rgba(255,255,255,0.1)}
-.preview-frame{flex:1;background:#fff;position:relative;overflow:hidden}
-.preview-frame iframe{width:100%;height:100%;border:none;display:block}
+.preview-frame{flex:1;background:rgba(10,22,40,0.5);position:relative;overflow:hidden;padding:24px;display:flex;align-items:center;justify-content:center}
+.preview-frame iframe{width:100%;height:100%;border:none;display:block;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.3);transition:all 0.4s ease;background:#fff;max-width:100%}
+.preview-frame iframe.tablet-view{max-width:768px;height:90%;border-radius:16px}
+.preview-frame iframe.mobile-view{max-width:375px;max-height:667px;border-radius:24px}
 .preview-frame .empty-state{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-muted);padding:40px;text-align:center}
 .preview-frame .empty-state i{font-size:3.5rem;margin-bottom:16px;opacity:0.3}
 .preview-frame .empty-state h3{font-size:1.3rem;margin-bottom:8px;color:var(--text)}
@@ -74,9 +76,10 @@ $isLoggedIn = $user && $user['role'] === 'client';
 .modal .btn-secondary{background:rgba(255,255,255,0.05);border:1px solid var(--card-border);color:var(--text)}
 .modal .btn-secondary:hover{background:rgba(255,255,255,0.1)}
 @media(max-width:768px){
-.builder-layout{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:calc(100vh - 60px);margin-top:60px}
+.builder-layout{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:calc(100vh - 60px - 16px);margin-top:60px;padding-top:16px}
 .builder-sidebar{max-height:50vh}
 .preview-toolbar{flex-wrap:wrap;gap:8px}
+.preview-frame{padding:12px}
 }
 </style>
 </head>
@@ -142,7 +145,7 @@ $isLoggedIn = $user && $user['role'] === 'client';
                 <h3>Pronto para criar o seu site?</h3>
                 <p>Descreva o site que precisa no painel ao lado e clique em "Gerar Site". A nossa IA cria o site automaticamente para si!</p>
             </div>
-            <div class="loading-state" id="loadingState" style="display:none;position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:var(--primary);z-index:10;">
+            <div class="loading-state" id="loadingState" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:var(--primary);z-index:10;">
                 <div style="width:48px;height:48px;border:3px solid var(--card-border);border-top-color:var(--secondary);border-radius:50%;animation:builderSpin 0.8s linear infinite;margin-bottom:20px;"></div>
                 <h3 style="font-size:1.1rem;margin-bottom:6px">A gerar o seu site...</h3>
                 <p style="color:var(--text-muted);font-size:0.85rem;">A IA está a criar o site com base no seu pedido. Isto pode levar alguns segundos.</p>
@@ -252,6 +255,8 @@ function showPreview(html) {
     document.getElementById('emptyState').style.display = 'none';
     const iframe = document.getElementById('previewIframe');
     iframe.style.display = 'block';
+    // Ensure generated content has baseline spacing from the top
+    html = html.replace('</head>', '<style>body{padding-top:10px!important}</style></head>');
     iframe.srcdoc = html;
     document.getElementById('btnDownload').disabled = false;
 }
@@ -265,8 +270,10 @@ function refreshPreview() {
 
 function setDevice(device) {
     const iframe = document.getElementById('previewIframe');
-    const widths = { desktop: '100%', tablet: '768px', mobile: '375px' };
-    iframe.style.maxWidth = widths[device];
+    iframe.classList.remove('tablet-view', 'mobile-view');
+    if (device !== 'desktop') {
+        iframe.classList.add(device + '-view');
+    }
     iframe.style.margin = '0 auto';
     iframe.style.display = 'block';
     document.querySelectorAll('.device-btns button').forEach(b => b.classList.remove('active'));

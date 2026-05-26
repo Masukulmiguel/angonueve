@@ -87,8 +87,7 @@ if ($action === 'create' || $action === 'edit') {
                         }
                     }
 
-                    db()->insert('contracts', $data);
-                    $newId = db()->lastInsertId();
+                    $newId = db()->insert('contracts', $data);
                     logActivity($user['id'], 'create_contract', "Contrato {$data['contract_number']} criado");
 
                     if ($data['end_date'] && $data['status'] === 'active') {

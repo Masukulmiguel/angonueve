@@ -187,7 +187,7 @@ function activateClientService($clientId, $serviceSlug, $serviceName, $planName,
         $expiresAt = date('Y-m-d', strtotime('+1 month'));
     }
 
-    db()->insert('client_services', [
+    return db()->insert('client_services', [
         'client_id' => $clientId,
         'invoice_id' => $invoiceId,
         'service_slug' => $serviceSlug,
@@ -197,7 +197,6 @@ function activateClientService($clientId, $serviceSlug, $serviceName, $planName,
         'activated_at' => date('Y-m-d H:i:s'),
         'expires_at' => $expiresAt
     ]);
-    return db()->lastInsertId();
 }
 
 function validateNIF($nif) {

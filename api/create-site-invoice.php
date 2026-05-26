@@ -39,7 +39,7 @@ $invoiceNo = generateInvoiceNo();
 try {
     db()->beginTransaction();
 
-    db()->insert('invoices', [
+    $invoiceId = db()->insert('invoices', [
         'invoice_no' => $invoiceNo,
         'client_id' => $user['id'],
         'client_name' => $user['name'],
@@ -51,7 +51,6 @@ try {
         'status' => 'pending',
         'created_by' => $user['id']
     ]);
-    $invoiceId = db()->lastInsertId();
 
     db()->update('generated_sites', [
         'status' => 'pending_payment',
