@@ -1,21 +1,21 @@
 <?php
-require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../includes/auth.php';
 $user = currentUser();
 $isLoggedIn = $user && $user['role'] === 'client';
 ?>
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Crie o seu site com IA - Descreva o que precisa e a ANGONUEVE gera o site automaticamente.">
-<title>Criar Site com IA - ANGONUEVE</title>
+<meta name="description" content="Create your website with AI - Describe what you need and ANGONUEVE generates the site automatically.">
+<title>Create Website with AI - ANGONUEVE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="css/style.css">
-<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/png" href="../images/logo.png">
 <style>
 .builder-layout{display:grid;grid-template-columns:380px 1fr;height:calc(100vh - 64px);margin-top:64px;overflow:hidden}
 .builder-sidebar{background:rgba(10,22,40,0.98);border-right:1px solid var(--card-border);display:flex;flex-direction:column;overflow:hidden}
@@ -81,20 +81,19 @@ $isLoggedIn = $user && $user['role'] === 'client';
 </style>
 </head>
 <body>
-<a href="#previewArea" class="skip-link">Ir para pré-visualização</a>
+<a href="#previewArea" class="skip-link">Skip to preview</a>
 <nav class="navbar" id="navbar">
     <div class="container">
-        <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="ANGONUEVE"><span>ANGONUEVE</span></a>
+        <a href="index.html" class="nav-logo"><img src="../images/logo.png" alt="ANGONUEVE"><span>ANGONUEVE</span></a>
         <ul class="nav-links" id="navLinks">
-            <li><a href="en/criar-site.php" class="lang-switch" title="English version">EN</a></li>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="servicos.php">Serviços</a></li>
-            <li><a href="modelos.php">Modelos</a></li>
-            <li><a href="criar-site.php" class="active">Criar Site</a></li>
-            <li><a href="about.html">Sobre</a></li>
-            <li><a href="contact.html">Contacto</a></li>
-            <li><a href="client/login.php" class="btn btn-secondary"><i class="fas fa-user-circle"></i> Área Cliente</a></li>
-            <li><a href="orcamento.php" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Orçamento</a></li>
+            <li><a href="../criar-site.php" class="lang-switch" title="Versão Portuguesa">PT</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="criar-site.php" class="active">Create Site</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="../client/login.php" class="btn btn-secondary"><i class="fas fa-user-circle"></i> Client Area</a></li>
+            <li><a href="orcamento.php" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Quote</a></li>
         </ul>
         <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -104,22 +103,22 @@ $isLoggedIn = $user && $user['role'] === 'client';
 <div class="builder-layout">
     <aside class="builder-sidebar">
         <div class="sidebar-header">
-            <h2><i class="fas fa-magic"></i> Criar Site com IA</h2>
-            <p>Descreva o site ideal para o seu negócio.</p>
+            <h2><i class="fas fa-magic"></i> Create Site with AI</h2>
+            <p>Describe your ideal website for your business.</p>
         </div>
         <div class="prompt-section">
-            <textarea id="promptInput" placeholder="Ex: Quero um site para um restaurante angolano com menu digital, galeria de pratos, formulário de reservas e contacto. Design moderno escuro com tons dourados."></textarea>
+            <textarea id="promptInput" placeholder="E.g.: I want a modern business website with services, team and contact sections. Dark design with blue accents."></textarea>
             <div class="examples">
-                <span data-prompt="Quero um site empresarial moderno com serviços, equipa e contacto">Empresarial</span>
-                <span data-prompt="Quero um portfólio criativo para fotógrafo com galeria e depoimentos">Portfólio</span>
-                <span data-prompt="Quero uma landing page para venda de cursos online">Landing Page</span>
-                <span data-prompt="Quero um site para restaurante com menu, galeria e reservas">Restaurante</span>
-                <span data-prompt="Quero uma loja virtual simples com produtos e carrinho">Loja Virtual</span>
-                <span data-prompt="Quero um blog pessoal com posts, categorias e sidebar">Blog</span>
+                <span data-prompt="I want a modern business website with services, team and contact sections">Business</span>
+                <span data-prompt="I want a creative portfolio for a photographer with gallery and testimonials">Portfolio</span>
+                <span data-prompt="I want a landing page for selling online courses">Landing Page</span>
+                <span data-prompt="I want a restaurant website with menu, gallery and reservations">Restaurant</span>
+                <span data-prompt="I want a simple e-commerce store with products and cart">Online Store</span>
+                <span data-prompt="I want a personal blog with posts, categories and sidebar">Blog</span>
             </div>
             <button class="btn-generate" id="btnGenerate" onclick="generateSite()">
                 <span class="spinner"></span>
-                <span class="btn-text"><i class="fas fa-wand-magic-sparkles"></i> Gerar Site</span>
+                <span class="btn-text"><i class="fas fa-wand-magic-sparkles"></i> Generate Site</span>
             </button>
         </div>
         <div class="chat-history" id="chatHistory"></div>
@@ -132,20 +131,20 @@ $isLoggedIn = $user && $user['role'] === 'client';
                 <button data-device="mobile" onclick="setDevice('mobile')" title="Mobile"><i class="fas fa-mobile-alt"></i></button>
             </div>
             <div class="actions">
-                <button class="btn-refresh" onclick="refreshPreview()" title="Actualizar pré-visualização"><i class="fas fa-sync-alt"></i></button>
-                <button class="btn-download" id="btnDownload" onclick="handleDownload()"><i class="fas fa-download"></i> Descarregar</button>
+                <button class="btn-refresh" onclick="refreshPreview()" title="Refresh preview"><i class="fas fa-sync-alt"></i></button>
+                <button class="btn-download" id="btnDownload" onclick="handleDownload()"><i class="fas fa-download"></i> Download</button>
             </div>
         </div>
         <div class="preview-frame" id="previewFrame">
             <div class="empty-state" id="emptyState">
                 <i class="fas fa-wand-magic-sparkles"></i>
-                <h3>Pronto para criar o seu site?</h3>
-                <p>Descreva o site que precisa no painel ao lado e clique em "Gerar Site". A nossa IA cria o site automaticamente para si!</p>
+                <h3>Ready to create your site?</h3>
+                <p>Describe the website you need in the panel on the left and click "Generate Site". Our AI creates the site automatically for you!</p>
             </div>
             <div class="loading-state" id="loadingState" style="display:none;position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:var(--primary);z-index:10;">
                 <div style="width:48px;height:48px;border:3px solid var(--card-border);border-top-color:var(--secondary);border-radius:50%;animation:builderSpin 0.8s linear infinite;margin-bottom:20px;"></div>
-                <h3 style="font-size:1.1rem;margin-bottom:6px">A gerar o seu site...</h3>
-                <p style="color:var(--text-muted);font-size:0.85rem;">A IA está a criar o site com base no seu pedido. Isto pode levar alguns segundos.</p>
+                <h3 style="font-size:1.1rem;margin-bottom:6px">Generating your site...</h3>
+                <p style="color:var(--text-muted);font-size:0.85rem;">The AI is creating your site based on your request. This may take a few seconds.</p>
             </div>
             <style>@keyframes builderSpin{to{transform:rotate(360deg)}}.loading-state{display:none!important}.loading-state.active{display:flex!important}</style>
             <iframe id="previewIframe" srcdoc="" style="display:none;"></iframe>
@@ -157,10 +156,10 @@ $isLoggedIn = $user && $user['role'] === 'client';
 <div class="modal-overlay" id="loginModal">
     <div class="modal">
         <i class="fas fa-user-lock"></i>
-        <h3>Faça login para descarregar</h3>
-        <p>Para descarregar o site gerado, precisa de ter uma conta. Se ainda não tem, pode registar-se gratuitamente.</p>
-        <a href="client/login.php?redirect=<?= urlencode('criar-site.php') ?>" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Fazer Login</a>
-        <a href="client/register.php?redirect=<?= urlencode('criar-site.php') ?>" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Criar Conta</a>
+        <h3>Login to Download</h3>
+        <p>To download the generated site, you need an account. If you don't have one, you can register for free.</p>
+        <a href="../client/login.php?redirect=<?= urlencode('en/criar-site.php') ?>" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="../client/register.php?redirect=<?= urlencode('en/criar-site.php') ?>" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Create Account</a>
     </div>
 </div>
 
@@ -168,10 +167,10 @@ $isLoggedIn = $user && $user['role'] === 'client';
 <div class="modal-overlay" id="paymentModal">
     <div class="modal">
         <i class="fas fa-shopping-cart"></i>
-        <h3>Descarregar Site</h3>
-        <p id="paymentInfo">O site gerado pode ser seu por um pagamento único. Após a confirmação do pagamento, poderá descarregar o ficheiro HTML completo.</p>
-        <button class="btn btn-primary" onclick="proceedToPayment()"><i class="fas fa-credit-card"></i> Pagar e Descarregar</button>
-        <button class="btn btn-secondary" onclick="closeModal('paymentModal')"><i class="fas fa-times"></i> Agora não</button>
+        <h3>Download Site</h3>
+        <p id="paymentInfo">The generated site can be yours with a one-time payment. After payment confirmation, you can download the complete HTML file.</p>
+        <button class="btn btn-primary" onclick="proceedToPayment()"><i class="fas fa-credit-card"></i> Pay & Download</button>
+        <button class="btn btn-secondary" onclick="closeModal('paymentModal')"><i class="fas fa-times"></i> Not now</button>
     </div>
 </div>
 
@@ -179,14 +178,14 @@ $isLoggedIn = $user && $user['role'] === 'client';
 <div class="modal-overlay" id="downloadModal">
     <div class="modal">
         <i class="fas fa-check-circle" style="color:#00e676"></i>
-        <h3>Site Pronto para Descarregar!</h3>
-        <p>O seu site foi gerado com sucesso. Clique abaixo para descarregar o ficheiro HTML.</p>
-        <a href="#" class="btn btn-primary" id="downloadLink"><i class="fas fa-download"></i> Descarregar Site</a>
-        <button class="btn btn-secondary" onclick="closeModal('downloadModal')">Fechar</button>
+        <h3>Site Ready to Download!</h3>
+        <p>Your site has been generated successfully. Click below to download the HTML file.</p>
+        <a href="#" class="btn btn-primary" id="downloadLink"><i class="fas fa-download"></i> Download Site</a>
+        <button class="btn btn-secondary" onclick="closeModal('downloadModal')">Close</button>
     </div>
 </div>
 
-<script src="js/script.js"></script>
+<script src="../js/script.js"></script>
 <script>
 let currentHtml = '';
 let currentSiteId = 0;
@@ -209,12 +208,12 @@ function generateSite() {
     chatHistory.push({ role: 'user', content: prompt });
     renderChat();
 
-    fetch('api/generate-site.php', {
+    fetch('../api/generate-site.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt, history: chatHistory.slice(0, -1) })
     })
-    .then(r => r.json().catch(() => ({ error: 'Resposta inválida do servidor (HTTP ' + r.status + ')' })))
+    .then(r => r.json().catch(() => ({ error: 'Invalid server response (HTTP ' + r.status + ')' })))
     .then(data => {
         btn.classList.remove('loading');
         btn.disabled = false;
@@ -222,11 +221,11 @@ function generateSite() {
         if (data.success && data.html) {
             currentHtml = data.html;
             currentSiteId = data.site_id || 0;
-            chatHistory.push({ role: 'assistant', content: '✅ Site gerado com sucesso! Pode pré-visualizar abaixo.' });
+            chatHistory.push({ role: 'assistant', content: '✅ Site generated successfully! You can preview it below.' });
             renderChat();
             showPreview(data.html);
         } else {
-            const err = data.error || 'Erro desconhecido ao gerar o site';
+            const err = data.error || 'Unknown error generating the site';
             chatHistory.push({ role: 'assistant', content: '❌ ' + err });
             renderChat();
         }
@@ -234,7 +233,8 @@ function generateSite() {
     .catch(err => {
         btn.classList.remove('loading');
         btn.disabled = false;
-        const msg = err.message || 'Erro de conexão. Verifica a tua internet.';
+        document.getElementById('loadingState').classList.remove('active');
+        const msg = err.message || 'Connection error. Check your internet.';
         chatHistory.push({ role: 'assistant', content: '❌ ' + msg });
         renderChat();
     });
@@ -243,7 +243,7 @@ function generateSite() {
 function renderChat() {
     const container = document.getElementById('chatHistory');
     container.innerHTML = chatHistory.map(msg =>
-        '<div class="msg ' + msg.role + '"><div class="msg-label">' + (msg.role === 'user' ? 'Tu' : 'ANGONUEVE IA') + '</div>' + msg.content + '</div>'
+        '<div class="msg ' + msg.role + '"><div class="msg-label">' + (msg.role === 'user' ? 'You' : 'ANGONUEVE AI') + '</div>' + msg.content + '</div>'
     ).join('');
     container.scrollTop = container.scrollHeight;
 }
@@ -288,9 +288,7 @@ function handleDownload() {
 
 function proceedToPayment() {
     closeModal('paymentModal');
-    const iframe = document.getElementById('previewIframe');
-    // Create invoice and redirect to payment
-    fetch('api/create-site-invoice.php', {
+    fetch('../api/create-site-invoice.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ site_id: currentSiteId })
@@ -298,12 +296,12 @@ function proceedToPayment() {
     .then(r => r.json())
     .then(data => {
         if (data.success && data.invoice_id) {
-            window.location.href = 'client/invoice-view.php?id=' + data.invoice_id + '&pay=1';
+            window.location.href = '../client/invoice-view.php?id=' + data.invoice_id + '&pay=1';
         } else {
-            alert('Erro ao criar fatura. Tenta novamente.');
+            alert('Error creating invoice. Please try again.');
         }
     })
-    .catch(() => alert('Erro de conexão.'));
+    .catch(() => alert('Connection error.'));
 }
 
 function doDownload() {
@@ -320,7 +318,6 @@ function closeModal(id) {
     document.getElementById(id).classList.remove('active');
 }
 
-// Example prompts
 document.querySelectorAll('.examples span').forEach(el => {
     el.addEventListener('click', () => {
         document.getElementById('promptInput').value = el.dataset.prompt;
@@ -328,7 +325,6 @@ document.querySelectorAll('.examples span').forEach(el => {
     });
 });
 
-// Enter to generate
 document.getElementById('promptInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); generateSite(); }
 });

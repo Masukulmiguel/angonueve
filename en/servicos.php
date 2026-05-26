@@ -39,6 +39,7 @@ $services = db()->fetchAll("SELECT * FROM services_db WHERE is_active = 1 ORDER 
                 <li><a href="../servicos.php" class="lang-switch" title="Versão Portuguesa">PT</a></li>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="criar-site.php">Create Site</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li><a href="../client/login.php" class="btn btn-secondary"><i class="fas fa-user-circle"></i> Client Area</a></li>
@@ -148,6 +149,7 @@ $services = db()->fetchAll("SELECT * FROM services_db WHERE is_active = 1 ORDER 
                     <h4>Quick Links</h4>
                     <a href="index.html">Home</a>
                     <a href="services.html">Services</a>
+                    <a href="criar-site.php">Create Site</a>
                     <a href="about.html">About Us</a>
                     <a href="contact.html">Contact</a>
                     <a href="../privacidade.php">Privacy Policy</a>

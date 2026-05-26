@@ -104,14 +104,29 @@ if ($httpCode !== 200) {
 }
 
 $data = json_decode($response, true);
-$code = $data['candidates'][0]['content']['parts'][0]['text'] ?? '';
+$candidate = $data['candidates'][0] ?? [];
+$finishReason = $candidate['finishReason'] ?? 'UNKNOWN';
+$code = $candidate['content']['parts'][0]['text'] ?? '';
 
-// Strip markdown code fences if present
+// Strip markdown code fences
 $code = preg_replace('/^```(?:html|php)?\s*/i', '', $code);
 $code = preg_replace('/\s*```$/', '', $code);
+$code = preg_replace('/^```/m', '', $code);
+$code = preg_replace('/```$/m', '', $code);
+$code = trim($code);
 
 if (empty($code)) {
-    jsonResponse(['error' => 'Não foi possível gerar o site. Tenta novamente.'], 500);
+    jsonResponse(['error' => 'A IA não conseguiu gerar código válido. Tenta reformular o pedido.'], 500);
+}
+
+// Validate that it looks like HTML
+if (stripos($code, '<!DOCTYPE') === false && stripos($code, '<html') === false) {
+    jsonResponse(['error' => 'O código gerado não é um HTML válido. Tenta novamente com um pedido mais específico.'], 500);
+}
+
+if ($finishReason === 'MAX_TOKENS') {
+    // Append a note that the site was truncated
+    $code .= "\n<!-- Nota: Site truncado devido ao limite de tokens. Podes refinar o prompt para gerar mais detalhes. -->";
 }
 
 $tokens = $data['usageMetadata']['totalTokenCount'] ?? 0;
