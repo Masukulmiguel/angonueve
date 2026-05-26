@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog Pessoal - Compartilhar Ideias</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#0f0f1a;--secondary:#818cf8;--accent:#f472b6;--text:#e2e8f0;--text-muted:#94a3b8;--card-bg:rgba(255,255,255,0.04);--radius:12px}
+body{font-family:'Inter','Segoe UI',sans-serif;background:var(--primary);color:var(--text);line-height:1.7}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 40px;background:rgba(15,15,26,0.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.04)}
+nav .logo{font-size:1.2rem;font-weight:700;color:var(--secondary)}
+nav a{color:var(--text-muted);text-decoration:none;margin-left:24px;font-size:0.88rem;transition:color 0.3s}
+nav a:hover{color:var(--secondary)}
+.hero{text-align:center;padding:100px 40px 60px}
+.hero .avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--secondary),var(--accent));margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.hero h1{font-size:2.5rem;font-weight:700;margin-bottom:8px}
+.hero p{color:var(--text-muted);max-width:450px;margin:0 auto 24px}
+.social-links{display:flex;justify-content:center;gap:12px}
+.social-links a{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;transition:all 0.3s}
+.social-links a:hover{border-color:var(--secondary);color:var(--secondary)}
+main{display:grid;grid-template-columns:2fr 1fr;gap:40px;max-width:1100px;margin:0 auto;padding:40px 40px 80px}
+.blog-grid{display:flex;flex-direction:column;gap:24px}
+.post-card{display:grid;grid-template-columns:200px 1fr;gap:20px;padding:20px;border-radius:var(--radius);background:var(--card-bg);border:1px solid rgba(255,255,255,0.04);transition:all 0.3s}
+.post-card:hover{border-color:rgba(129,140,248,0.15);transform:translateX(4px)}
+.post-card .thumb{height:150px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.post-card .info .tag{display:inline-block;padding:3px 10px;border-radius:50px;background:rgba(129,140,248,0.1);color:var(--secondary);font-size:0.7rem;margin-bottom:8px;border:1px solid rgba(129,140,248,0.15)}
+.post-card .info h3{font-size:1rem;margin-bottom:6px}
+.post-card .info h3 a{color:var(--text);text-decoration:none}
+.post-card .info h3 a:hover{color:var(--secondary)}
+.post-card .info p{font-size:0.85rem;color:var(--text-muted);margin-bottom:8px}
+.post-card .info .meta{font-size:0.78rem;color:var(--text-muted);display:flex;gap:16px}
+.sidebar>div{padding:24px;border-radius:var(--radius);background:var(--card-bg);border:1px solid rgba(255,255,255,0.04);margin-bottom:20px}
+.sidebar h3{font-size:1rem;margin-bottom:16px;color:var(--secondary)}
+.sidebar ul{list-style:none}
+.sidebar ul li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.88rem}
+.sidebar ul li a{color:var(--text-muted);text-decoration:none;transition:color 0.3s}
+.sidebar ul li a:hover{color:var(--secondary)}
+.sidebar .tags{display:flex;flex-wrap:wrap;gap:6px}
+.sidebar .tags span{padding:6px 14px;border-radius:50px;border:1px solid rgba(255,255,255,0.04);font-size:0.78rem;color:var(--text-muted)}
+.pagination{display:flex;justify-content:center;gap:8px;margin-top:32px}
+.pagination a{padding:10px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);text-decoration:none;color:var(--text-muted);font-size:0.88rem;transition:all 0.3s}
+.pagination a:hover,.pagination a.active{border-color:var(--secondary);color:var(--secondary);background:rgba(129,140,248,0.06)}
+footer{text-align:center;padding:32px;border-top:1px solid rgba(255,255,255,0.04);color:var(--text-muted);font-size:0.85rem}
+@media(max-width:768px){
+main{grid-template-columns:1fr;padding:20px}
+.post-card{grid-template-columns:1fr}
+.post-card .thumb{height:180px}
+nav{padding:12px 20px}
+nav a{margin-left:12px;font-size:0.82rem}
+.hero{padding:80px 20px 40px}
+.hero h1{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<nav>
+<div class="logo">Pensamentos</div>
+<div>
+<a href="#hero">Início</a>
+<a href="#blog">Blog</a>
+<a href="#">Sobre</a>
+<a href="#">Contacto</a>
+</div>
+</nav>
+<section class="hero" id="hero">
+<div class="avatar"><i class="fas fa-pen-fancy"></i></div>
+<h1>Compartilhar Ideias</h1>
+<p>Reflexões sobre tecnologia, criatividade e desenvolvimento pessoal.</p>
+<div class="social-links"><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-medium"></i></a></div>
+</section>
+<main id="blog">
+<div class="blog-grid">
+<div class="post-card"><div class="thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><i class="fas fa-code" style="color:var(--secondary)"></i></div><div class="info"><span class="tag">Tecnologia</span><h3><a href="#">Como começar no mundo da programação em 2026</a></h3><p>Um guia completo para iniciantes que querem aprender a programar do zero.</p><div class="meta"><span><i class="far fa-calendar"></i> 15 Mai 2026</span><span><i class="far fa-clock"></i> 8 min</span></div></div></div>
+<div class="post-card"><div class="thumb" style="background:linear-gradient(135deg,#1a2e1a,#162e16)"><i class="fas fa-brain" style="color:var(--accent)"></i></div><div class="info"><span class="tag">Produtividade</span><h3><a href="#">5 hábitos que mudaram a minha forma de trabalhar</a></h3><p>Pequenas mudanças na rotina que tiveram um grande impacto na produtividade.</p><div class="meta"><span><i class="far fa-calendar"></i> 10 Mai 2026</span><span><i class="far fa-clock"></i> 6 min</span></div></div></div>
+<div class="post-card"><div class="thumb" style="background:linear-gradient(135deg,#2e1a1a,#3e1616)"><i class="fas fa-lightbulb" style="color:#fbbf24"></i></div><div class="info"><span class="tag">Criatividade</span><h3><a href="#">O poder do design minimalista no mundo digital</a></h3><p>Menos é mais: como o minimalismo pode transformar as suas criações.</p><div class="meta"><span><i class="far fa-calendar"></i> 5 Mai 2026</span><span><i class="far fa-clock"></i> 5 min</span></div></div></div>
+<div class="post-card"><div class="thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><i class="fas fa-robot" style="color:var(--secondary)"></i></div><div class="info"><span class="tag">IA</span><h3><a href="#">Inteligência Artificial no dia-a-dia: ferramentas que uso</a></h3><p>Ferramentas de IA que realmente fazem a diferença na rotina de trabalho.</p><div class="meta"><span><i class="far fa-calendar"></i> 28 Abr 2026</span><span><i class="far fa-clock"></i> 7 min</span></div></div></div>
+<div class="post-card"><div class="thumb" style="background:linear-gradient(135deg,#2e1a2e,#3e163e)"><i class="fas fa-laptop" style="color:var(--accent)"></i></div><div class="info"><span class="tag">Carreira</span><h3><a href="#">Transição de carreira para tecnologia: o que aprendi</a></h3><p>Minha jornada de mudança de área e conselhos para quem quer fazer o mesmo.</p><div class="meta"><span><i class="far fa-calendar"></i> 20 Abr 2026</span><span><i class="far fa-clock"></i> 10 min</span></div></div></div>
+</div>
+<aside class="sidebar">
+<div><h3>Sobre Mim</h3><p style="font-size:0.88rem;color:var(--text-muted);">Desenvolvedor, escritor e entusiasta de tecnologia. Compartilho aqui ideias e aprendizados ao longo da minha jornada.</p></div>
+<div><h3>Categorias</h3><ul><li><a href="#">Tecnologia</a> (12)</li><li><a href="#">Produtividade</a> (8)</li><li><a href="#">Criatividade</a> (6)</li><li><a href="#">Carreira</a> (5)</li><li><a href="#">Inteligência Artificial</a> (4)</li></ul></div>
+<div><h3>Tags</h3><div class="tags"><span>javascript</span><span>design</span><span>css</span><span>react</span><span>produtividade</span><span>estudo</span></div></div>
+</aside>
+</main>
+<div class="pagination"><a href="#" class="active">1</a><a href="#">2</a><a href="#">3</a><a href="#"><i class="fas fa-chevron-right"></i></a></div>
+<footer><p>&copy; 2026 Pensamentos Blog. Todos os direitos reservados.</p></footer>
+</body>
+</html>

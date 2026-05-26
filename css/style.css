@@ -2404,3 +2404,37 @@ img {
         font-size: 1.3rem;
     }
 }
+
+/* ===== Team Section ===== */
+.team-section{padding:80px 0;background:radial-gradient(ellipse at center,rgba(0,212,255,0.03),transparent 60%)}
+.team-section .section-header{text-align:center;margin-bottom:48px}
+.team-section .section-header .section-badge{display:inline-block;padding:6px 16px;border-radius:50px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);color:var(--secondary);font-size:0.78rem;font-weight:600;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.team-section .section-header h2{font-size:2rem;margin-bottom:8px}
+.team-section .section-header p{color:var(--text-muted);max-width:480px;margin:0 auto}
+.team-carousel{display:flex;align-items:center;gap:16px}
+.team-track-wrapper{overflow:hidden;flex:1;border-radius:var(--radius)}
+.team-track{display:flex;gap:20px;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);padding:8px 0}
+.team-card{min-width:280px;padding:32px 24px;border-radius:var(--radius);background:var(--card-bg);border:1px solid var(--card-border);text-align:center;transition:all 0.3s;flex-shrink:0}
+.team-card:hover{transform:translateY(-6px);border-color:var(--secondary);box-shadow:0 12px 40px rgba(0,0,0,0.2)}
+.team-card .team-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#0d1f3c,#162d50);border:2px solid var(--card-border);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--secondary);margin:0 auto 16px;transition:all 0.3s}
+.team-card:hover .team-avatar{border-color:var(--secondary);box-shadow:0 0 20px rgba(0,212,255,0.15)}
+.team-card h3{font-size:1.05rem;margin-bottom:4px;font-weight:600}
+.team-card .team-role{font-size:0.82rem;color:var(--secondary);display:block;margin-bottom:12px;font-weight:500}
+.team-card .team-bio{font-size:0.84rem;color:var(--text-muted);line-height:1.5;margin-bottom:16px}
+.team-card .team-social{display:flex;justify-content:center;gap:10px}
+.team-card .team-social a{width:36px;height:36px;border-radius:50%;border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;transition:all 0.3s;font-size:0.85rem}
+.team-card .team-social a:hover{background:var(--secondary);border-color:var(--secondary);color:var(--primary)}
+.team-arrow{width:44px;height:44px;border-radius:50%;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;flex-shrink:0;backdrop-filter:blur(12px)}
+.team-arrow:hover{background:var(--secondary);border-color:var(--secondary);color:var(--primary)}
+.team-dots{display:flex;justify-content:center;gap:8px;margin-top:24px}
+.team-dots span{width:10px;height:10px;border-radius:50%;background:var(--card-border);cursor:pointer;transition:all 0.3s}
+.team-dots span.active{width:28px;border-radius:5px;background:var(--secondary)}
+@media(max-width:768px){
+.team-section{padding:60px 0}
+.team-card{min-width:240px;padding:24px 16px}
+.team-arrow{width:36px;height:36px;font-size:0.85rem}
+}
+@media(max-width:480px){
+.team-card{min-width:200px}
+.team-section .section-header h2{font-size:1.5rem}
+}

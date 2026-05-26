@@ -937,4 +937,92 @@ function initNewsletter() {
     });
 }
 
+function initTeamCarousel() {
+    const section = document.getElementById('teamSection');
+    if (!section) return;
+
+    fetch('api/check-auth.php', { credentials: 'same-origin' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.isAdmin) {
+                section.style.display = '';
+                setupCarousel();
+            }
+        })
+        .catch(() => {});
+
+    function setupCarousel() {
+        const track = document.getElementById('teamTrack');
+        const dotsContainer = document.getElementById('teamDots');
+        const prevBtn = section.querySelector('.team-prev');
+        const nextBtn = section.querySelector('.team-next');
+        if (!track) return;
+
+        const cards = track.querySelectorAll('.team-card');
+        if (cards.length === 0) return;
+
+        let currentIndex = 0;
+        let cardWidth = 0;
+        let gap = 20;
+        let visibleCards = 1;
+
+        function calcDimensions() {
+            if (cards.length === 0) return;
+            const wrapper = track.parentElement;
+            const wrapperWidth = wrapper.clientWidth;
+            cardWidth = cards[0].offsetWidth;
+            gap = 20;
+            const totalCardSpace = cardWidth + gap;
+            visibleCards = Math.max(1, Math.floor((wrapperWidth + gap) / totalCardSpace));
+            const maxIndex = Math.max(0, cards.length - visibleCards);
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+        }
+
+        function update() {
+            const maxIndex = Math.max(0, cards.length - visibleCards);
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+            const offset = -(currentIndex * (cardWidth + gap));
+            track.style.transform = 'translateX(' + offset + 'px)';
+            updateDots();
+            updateArrows();
+        }
+
+        function updateDots() {
+            if (!dotsContainer) return;
+            const totalPages = Math.max(1, cards.length - visibleCards + 1);
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('span');
+                dot.className = i === currentIndex ? 'active' : '';
+                dot.addEventListener('click', () => { currentIndex = i; update(); });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateArrows() {
+            if (!prevBtn || !nextBtn) return;
+            const maxIndex = Math.max(0, cards.length - visibleCards);
+            prevBtn.style.opacity = currentIndex <= 0 ? '0.3' : '1';
+            nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
+        }
+
+        function nextSlide() {
+            const maxIndex = Math.max(0, cards.length - visibleCards);
+            if (currentIndex < maxIndex) { currentIndex++; update(); }
+        }
+
+        function prevSlide() {
+            if (currentIndex > 0) { currentIndex--; update(); }
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+        calcDimensions();
+        update();
+        window.addEventListener('resize', () => { calcDimensions(); update(); });
+    }
+}
+
 window.addEventListener('DOMContentLoaded', setActiveNav);
+window.addEventListener('DOMContentLoaded', initTeamCarousel);
