@@ -102,7 +102,8 @@ $where = '';
 $params = [];
 if ($status) { $where = 'status = ?'; $params[] = $status; }
 $total = db()->count('orders', $where, $params);
-$orders = db()->fetchAll("SELECT * FROM orders {$where} ORDER BY created_at DESC LIMIT ? OFFSET ?", array_merge($params, [$perPage, $offset]));
+$whereClause = $where ? "WHERE {$where}" : '';
+$orders = db()->fetchAll("SELECT * FROM orders {$whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?", array_merge($params, [$perPage, $offset]));
 ?>
 <!DOCTYPE html>
 <html lang="pt">

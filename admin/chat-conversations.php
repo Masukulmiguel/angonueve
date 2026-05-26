@@ -47,8 +47,9 @@ if ($sessionFilter) {
 }
 
 $total = db()->count('chat_conversations', $where, $params);
+$whereClause = $where ? "WHERE {$where}" : '';
 $conversations = db()->fetchAll(
-    "SELECT * FROM chat_conversations {$where} ORDER BY created_at DESC LIMIT ? OFFSET ?",
+    "SELECT * FROM chat_conversations {$whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?",
     array_merge($params, [$perPage, $offset])
 );
 
