@@ -150,6 +150,158 @@ const servicesData = {
     },
 };
 
+const servicesDataEn = {
+    hospedagem: {
+        title: 'Web Hosting',
+        subtitle: 'Robust and scalable plans for your website or application',
+        icon: 'fa-globe',
+        description: `
+            <p><strong>ANGONUEVE</strong> offers high-performance web hosting plans for all types of projects. From small business websites to large portals and web applications, we have the ideal solution for you.</p>
+            <p>Our infrastructure features state-of-the-art servers, SSD NVMe storage and dedicated bandwidth to ensure your website is always online and fast.</p>
+            <p>All plans include an intuitive control panel, automatic CMS installer (WordPress, Joomla, etc.), free SSL certificate, and 24/7 technical support.</p>
+        `,
+        features: [
+            'Shared, VPS and Dedicated hosting',
+            'High-speed SSD NVMe',
+            'Free SSL included',
+            '24/7 Support',
+            'Daily automatic backup',
+            'cPanel/WHM control panel',
+            'Automatic CMS installer',
+            'Unlimited bandwidth'
+        ],
+        pricing: [
+            {
+                name: 'Basic',
+                monthly: 5000,
+                storage: '10 GB SSD',
+                sites: '1 Site',
+                emails: '1 Email',
+                databases: '1 DB',
+                dominio: '1 Domain',
+                bandwidth: '50 GB',
+                featured: false,
+                badge: ''
+            },
+            {
+                name: 'Standard',
+                monthly: 10000,
+                storage: '20 GB SSD',
+                sites: '3 Sites',
+                emails: '3 Emails',
+                databases: '3 DB',
+                dominio: '1 Domain',
+                bandwidth: '100 GB',
+                featured: true,
+                badge: 'Most Popular'
+            },
+            {
+                name: 'Professional',
+                monthly: 15000,
+                storage: '50 GB SSD',
+                sites: '5 Sites',
+                emails: '5 Emails',
+                databases: '5 DB',
+                dominio: '1 Domain',
+                bandwidth: '200 GB',
+                featured: false,
+                badge: ''
+            },
+            {
+                name: 'Enterprise',
+                monthly: 25000,
+                storage: '100 GB SSD',
+                sites: 'Unlimited',
+                emails: 'Unlimited',
+                databases: 'Unlimited',
+                dominio: '1 Domain',
+                bandwidth: '500 GB',
+                featured: false,
+                badge: ''
+            }
+        ]
+    },
+    dominios: {
+        title: 'Domain Registration',
+        subtitle: 'The perfect domain for your project',
+        icon: 'fa-tag',
+        description: `
+            <p>Register the perfect name for your business or project with <strong>ANGONUEVE</strong>. We work with the main domain extensions at the best market prices.</p>
+            <p>We offer complete DNS management, WHOIS privacy protection, domain redirection and much more. The entire process is simple and fast.</p>
+            <p>In addition to registration, we also offer domain transfer, automatic renewal and dedicated support for any domain-related questions.</p>
+        `,
+        features: [
+            'Domains .com, .ao, .co.ao',
+            'Competitive prices',
+            'Intuitive DNS management',
+            'WHOIS protection',
+            'Free transfer',
+            'Automatic renewal',
+            'Domain redirection',
+            'Specialized support'
+        ],
+        pricing: [
+            { name: '.com', monthly: 5000, period: '/year', features_list: ['1 year registration', 'DNS included', 'WHOIS protection'], featured: false },
+            { name: '.co.ao', monthly: 7000, period: '/year', features_list: ['1 year registration', 'DNS included', 'WHOIS protection'], featured: true, badge: 'National' },
+            { name: '.ao', monthly: 10000, period: '/year', features_list: ['1 year registration', 'DNS included', 'WHOIS protection'], featured: false },
+            { name: '.net', monthly: 5500, period: '/year', features_list: ['1 year registration', 'DNS included', 'WHOIS protection'], featured: false },
+            { name: '.org', monthly: 5500, period: '/year', features_list: ['1 year registration', 'DNS included', 'WHOIS protection'], featured: false }
+        ]
+    },
+    'email-corporativo': {
+        title: 'Business Email',
+        subtitle: 'Professional email with your own domain',
+        icon: 'fa-envelope',
+        description: `
+            <p>Communicate professionally with <strong>ANGONUEVE</strong> Business Email. Have email accounts with your own domain (you@yourcompany.com) and convey credibility to your clients and partners.</p>
+            <p>We offer easy-to-access webmail, configuration on any email client (Outlook, Thunderbird, mobile), shared calendar and synchronized contacts.</p>
+            <p>All plans include anti-spam, antivirus, dedicated technical support and availability guarantee so you never miss an important message.</p>
+        `,
+        features: [
+            'Email with your domain',
+            'Intuitive webmail',
+            'IMAP/POP3 setup',
+            'Anti-spam and antivirus',
+            'Calendar and contacts',
+            'Mobile access',
+            'Technical support',
+            'High availability'
+        ],
+        pricing: [
+            { name: 'Basic', monthly: 2000, period: '/month', features_list: ['1 Email account', '1 GB storage', 'Webmail', 'Anti-spam'], featured: false },
+            { name: 'Standard', monthly: 5000, period: '/month', features_list: ['3 Email accounts', '5 GB storage', 'Webmail + Calendar', 'Priority support'], featured: true, badge: 'Popular' },
+            { name: 'Professional', monthly: 10000, period: '/month', features_list: ['10 Email accounts', '20 GB storage', 'Shared calendar', '24/7 Support'], featured: false },
+            { name: 'Enterprise', monthly: 20000, period: '/month', features_list: ['Unlimited accounts', 'Unlimited storage', 'Advanced features', 'Dedicated support'], featured: false }
+        ]
+    },
+    'criacao-sites': {
+        title: 'Professional Website Development',
+        subtitle: 'Custom websites for your business',
+        icon: 'fa-code',
+        description: `
+            <p><strong>ANGONUEVE</strong> creates custom professional websites for your business. From landing pages to complete portals, our development team turns your vision into digital reality.</p>
+            <p>All websites are responsive (adapt to any device), optimized for SEO (Google), with fast performance and modern design that reflects your brand identity.</p>
+            <p>We include social media integration, contact forms, interactive maps, image galleries and everything you need for a successful online presence.</p>
+        `,
+        features: [
+            'Responsive design',
+            'SEO optimized',
+            'High performance',
+            'Management panel',
+            'Social media integration',
+            'Interactive forms',
+            'Hosting included (1 year)',
+            'Support and maintenance'
+        ],
+        pricing: [
+            { name: 'Landing Page', monthly: 75000, period: '/project', features_list: ['1 Page', 'Responsive design', 'Contact form', 'Basic SEO'], featured: false },
+            { name: 'Business', monthly: 150000, period: '/project', features_list: ['Up to 5 pages', 'Responsive design', 'Image gallery', 'Full SEO'], featured: true, badge: 'Recommended' },
+            { name: 'Professional', monthly: 300000, period: '/project', features_list: ['Up to 10 pages', 'Integrated blog', 'Admin panel', 'Basic e-commerce'], featured: false },
+            { name: 'Portal', monthly: 600000, period: '/project', features_list: ['Unlimited pages', 'Complete system', 'Members area', 'Priority support'], featured: false }
+        ]
+    },
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
     initHeroSlider();
@@ -438,10 +590,15 @@ function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function getServicesData() {
+    return window.location.pathname.startsWith('/en/') || window.location.pathname.startsWith('/ANGONUEVE/en/') ? servicesDataEn : servicesData;
+}
+
 function initServicePage() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-    const service = servicesData[id];
+    const data = getServicesData();
+    const service = data[id];
     if (!service) return;
 
     document.title = `${service.title} | ANGONUEVE`;
@@ -509,10 +666,11 @@ function initServicePage() {
     const otherGrid = document.getElementById('otherServices');
     if (otherGrid) {
         otherGrid.innerHTML = '';
-        Object.keys(servicesData).forEach(key => {
+        Object.keys(getServicesData()).forEach(key => {
             if (key === id) return;
-            const s = servicesData[key];
+            const s = getServicesData()[key];
             const card = document.createElement('a');
+            const isEn = window.location.pathname.startsWith('/en/') || window.location.pathname.startsWith('/ANGONUEVE/en/');
             card.href = `servico.html?id=${key}`;
             card.className = 'service-card glass fade-in';
             card.style.display = 'block';
@@ -522,7 +680,7 @@ function initServicePage() {
                 <div class="service-icon"><i class="fas ${s.icon.replace('fab ', '')}"></i></div>
                 <h3>${s.title}</h3>
                 <p>${s.subtitle}</p>
-                <span class="service-link">Saiba mais <i class="fas fa-arrow-right"></i></span>
+                <span class="service-link">${isEn ? 'Learn more' : 'Saiba mais'} <i class="fas fa-arrow-right"></i></span>
             `;
             otherGrid.appendChild(card);
         });

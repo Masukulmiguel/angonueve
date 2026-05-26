@@ -340,6 +340,39 @@ img {
     color: var(--secondary);
 }
 
+.lang-switch {
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px !important;
+    border-radius: 6px;
+    border: 1px solid var(--card-border);
+    transition: var(--transition);
+    color: var(--text-muted) !important;
+}
+
+.lang-switch:hover {
+    border-color: var(--secondary) !important;
+    color: var(--secondary) !important;
+    background: rgba(0, 212, 255, 0.08);
+}
+
+.lang-switch::after {
+    display: none !important;
+}
+
+.nav-links .lang-switch {
+    margin-right: 4px;
+}
+
+@media (max-width: 768px) {
+    .nav-links .lang-switch {
+        margin-right: 0;
+        align-self: flex-start;
+    }
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
