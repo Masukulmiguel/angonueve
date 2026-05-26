@@ -323,6 +323,9 @@ function initPageLoader() {
             document.getElementById('pageLoader').classList.add('active');
         }
     });
+    window.addEventListener('pageshow', function(e) {
+        document.getElementById('pageLoader').classList.remove('active');
+    });
 }
 
 function trackVisit() {
