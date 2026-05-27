@@ -611,6 +611,7 @@ function getAllPermissions() {
         'settings' => 'Configurações',
         'activity_log' => 'Registo de Actividades',
         'payslips' => 'Recibos de Vencimento',
-        'contracts' => 'Contratos'
+        'contracts' => 'Contratos',
+        'whatsapp' => 'WhatsApp'
     ];
 }

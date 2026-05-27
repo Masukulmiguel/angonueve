@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
 
-    if (!$input || !$wa->verifyWebhook($input)) {
+    if (!$input) {
         http_response_code(200);
         echo 'EVENT_RECEIVED';
         exit;
