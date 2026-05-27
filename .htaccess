@@ -1,22 +1,53 @@
 RewriteEngine On
+
+# --- Força HTTPS (descomenta em produção) ---
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# --- Remove index.php/index.html (opcional) ---
+# RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/index\.(php|html)\? [NC]
+# RewriteRule ^index\.(php|html)$ / [L,R=301,NC]
+
+# --- Admin redirect ---
 RewriteRule ^admin/$ admin/dashboard.php [L]
 
+# --- PHP Settings ---
 php_value upload_max_filesize 64M
 php_value post_max_size 64M
 php_value max_execution_time 300
 php_value max_input_time 300
 
-# Security Headers
+# --- Security Headers ---
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "DENY"
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
-# Protect sensitive directories
-<FilesMatch "\.(sql|md|log)$">
+# --- Cache Control (assets estáticos) ---
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresDefault "access plus 1 month"
+</IfModule>
+
+# --- Compressão Gzip ---
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# --- Proteger ficheiros sensíveis ---
+<FilesMatch "\.(sql|md|log|env)$">
     Require all denied
 </FilesMatch>
 
@@ -24,11 +55,14 @@ php_value max_input_time 300
     Require all denied
 </FilesMatch>
 
-# Block access to includes directory
 RewriteRule ^includes/ - [F,L]
-
-# Block access to database directory
 RewriteRule ^database/ - [F,L]
+RewriteRule ^\.env - [F,L]
 
-# Prevent directory listing
+# --- Prevenir directory listing ---
 Options -Indexes
+
+# --- Error pages ---
+ErrorDocument 403 /403.html
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html

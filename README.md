@@ -2,41 +2,6 @@
 
 Plataforma digital para divulgação, venda e gestão de serviços web: hospedagem, domínios, email corporativo e criação de sites.
 
-## Funcionalidades
-
-### Frontend
-- Página inicial com carrossel profissional (3 slides)
-- Catálogo de serviços web com descrições e preços
-- Páginas institucionais (Sobre, Contacto, Privacidade, Termos)
-- Formulário de contacto com API PHP
-- Pedido de orçamento online para serviços digitais
-- Design responsivo (mobile, tablet, desktop)
-- Animações suaves (scroll reveal, glassmorphism)
-
-### Backend — Admin CRM/ERP
-- Dashboard com estatísticas
-- Gestão de mensagens, encomendas e visitantes
-- Gestão de clientes (aprovação, perfis, reset de password)
-- Gestão de colaboradores (RH, permissões, contratos)
-- Processamento de salários (contracheques PDF)
-- Facturação e recibos (PDF)
-- Gestão de pagamentos e receitas
-- Relatórios financeiros com exportação PDF
-- Chat de suporte ao cliente
-- Log de actividades
-- Configurações dinâmicas do site
-- Sistema de autenticação com roles (admin, manager, employee)
-
-### Área do Cliente
-- Login e registo de conta
-- Recuperação e redefinição de password
-- Dashboard pessoal com resumo de serviços
-- Acompanhamento de encomendas
-- Chat de suporte em tempo real
-- Facturas e recibos online
-- Pagamento de serviços
-- Perfil e alteração de dados
-
 ## Stack Tecnológica
 
 | Componente | Tecnologia |
@@ -47,33 +12,53 @@ Plataforma digital para divulgação, venda e gestão de serviços web: hospedag
 | Email | PHPMailer 6 |
 | Ícones | Font Awesome 6 (CDN) |
 | Fontes | Google Fonts (Inter, Poppins) |
-| Servidor | Apache (XAMPP) |
+| Servidor | Apache (mod_rewrite activo) |
 
-## Requisitos
+## Instalação Local (XAMPP)
 
-- PHP 8.0+
-- MySQL/MariaDB
-- Apache (mod_rewrite activo)
-- XAMPP (recomendado)
+1. Coloca a pasta na `htdocs` do XAMPP.
 
-## Instalação
-
-1. Clonar o repositório:
+2. Importa a base de dados:
    ```bash
-   git clone https://github.com/Masukulmiguel/angonueve.git
+   mysql -u root < database/schema-full.sql
+   mysql -u root < database/seed.sql
    ```
 
-2. Colocar na pasta `htdocs` do XAMPP (ou document root do Apache).
+3. Acede a `http://localhost/ANGONUEVE/admin/setup.php` para criar o admin.
 
-3. Importar o schema da base de dados:
-   - Executar `database/schema.sql` no MySQL/MariaDB
-   - Executar as migrações `database/schema-update.sql` e `database/schema-update2.sql`
+4. **Admin padrão:** `admin@angonueve.co` / `admin123`
 
-4. Configurar a conexão à BD em `includes/config.php`.
+## Deploy para Produção (Hospedagem Real)
 
-5. Aceder a `http://localhost/ANGONUEVE/admin/setup.php` para configuração inicial.
+### 1. Base de Dados
 
-6. Login admin padrão: `admin@angonueve.co` / `admin123`
+1. Acede ao **phpMyAdmin** ou MySQL da tua hospedagem.
+2. Cria uma base de dados (ex: `angonueve_db`).
+3. Importa o ficheiro `database/schema-full.sql`.
+4. Importa o ficheiro `database/seed.sql`.
+
+### 2. Configuração
+
+1. Copia `.env.example` para `.env` no servidor:
+   ```bash
+   cp .env.example .env
+   ```
+2. Edita `.env` com os dados da tua hospedagem:
+   - `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` — dados da base de dados
+   - `SITE_URL` — URL do teu site (ex: `https://teudominio.com`)
+   - `APP_ENV=production`
+
+### 3. Upload dos ficheiros
+
+Faz upload de **todos os ficheiros** (excepto `database/`) para a pasta `public_html` ou `www` da tua hospedagem via FTP.
+
+### 4. Setup Inicial
+
+Acede a `https://teudominio.com/admin/setup.php` para criar o administrador.
+
+### 5. Email (SMTP)
+
+No painel **Admin > Configurações > Email**, preenche os dados SMTP da tua hospedagem.
 
 ## Estrutura do Projecto
 
@@ -82,39 +67,52 @@ ANGONUEVE/
 ├── index.html, about.html, contact.html, services.html
 ├── servico.php, servicos.php, orcamento.php
 ├── privacidade.php, termos.php
-├── css/ ─ style.css
-├── js/ ─ script.js
-├── includes/ ─ config.php, db.php, auth.php, functions.php, spinner.php
-├── api/ ─ contact.php, order.php, track.php, chat.php, notifications.php, validate-nif.php
-├── database/ ─ schema.sql, schema-update.sql, schema-update2.sql
-├── admin/ ─ dashboard, messages, orders, clients, employees, invoices, payments, revenue, payslips, contracts, chat, settings, setup
-├── client/ ─ login, register, dashboard, profile, orders, services, invoices, pay, chat, password management
-├── uploads/ ─ chat/, contracts/, employees/, proofs/
-├── vendor/ ─ phpmailer/
-├── prd.md ─ Documento de Requisitos
-├── specs.md ─ Especificações Técnicas
-└── .github/workflows/
+├── en/                    ─ Versão inglesa
+├── css/                   ─ Folhas de estilo
+├── js/                    ─ JavaScript
+├── includes/              ─ Config, DB, funções
+├── api/                   ─ Endpoints REST
+├── database/              ─ Schemas SQL
+│   ├── schema-full.sql    ─ Schema completo (produção)
+│   ├── seed.sql           ─ Dados iniciais
+│   └── schema.sql         ─ Schema base (desenvolvimento)
+├── admin/                 ─ Painel administrativo
+├── client/                ─ Área do cliente
+├── uploads/               ─ Uploads
+├── vendor/                ─ Dependências (PHPMailer)
+├── .env.example           ─ Template de configuração
+└── .htaccess              ─ Configuração Apache
 ```
 
-## Documentação
+## Funcionalidades
 
-- [`prd.md`](prd.md) — Documento de Requisitos do Produto
-- [`specs.md`](specs.md) — Especificações Técnicas
+### Frontend
+- Página inicial com carrossel
+- Catálogo de serviços com preços
+- Formulário de contacto + API
+- Pedido de orçamento online
+- Design responsivo com glassmorphism
+- Animações suaves (scroll reveal)
+- Chat inteligente (Gemini AI)
 
-## Roadmap
+### Admin CRM/ERP
+- Dashboard com estatísticas
+- Gestão de mensagens e encomendas
+- Gestão de clientes e colaboradores
+- Facturação e recibos (PDF)
+- Gestão de pagamentos
+- Contracheques (PDF)
+- Chat de suporte ao cliente
+- WhatsApp Cloud API
+- Log de actividades
 
-| Fase | Estado |
-|---|---|
-| V1 — Site estático (serviços web) | ✅ Concluído |
-| V2 — Backend PHP + BD | ✅ Concluído |
-| V3 — Admin CRM (gestão de serviços web) | ✅ Concluído |
-| V4 — Área do Cliente | ✅ Concluído |
-| V5 — Módulo RH | ✅ Concluído |
-| V6 — Módulo Financeiro | ✅ Concluído |
-| V7 — Chat + Notificações | ✅ Concluído |
-| V8 — Carrinho + Pagamentos (hospedagem, domínios) | ⏳ Pendente |
-| V9 — Blog (dicas de web hosting) | 📋 Planeado |
-| V10 — API Pública (integração registo domínios) | 📋 Planeado |
+### Área do Cliente
+- Login/Registo
+- Dashboard pessoal
+- Acompanhamento de encomendas
+- Facturas e pagamentos
+- Chat de suporte
+- Perfil
 
 ## Licença
 
