@@ -193,7 +193,7 @@ $isLoggedIn = $user && $user['role'] === 'client';
     </div>
 </div>
 
-<script src="../js/script.js"></script>
+<script src="../js/script.js?v=2"></script>
 <script>
 let currentHtml = '';
 let currentSiteId = 0;

@@ -18,6 +18,7 @@ $notifPendingPayments = $stats['pending_payments'];
 $notifUnreadChat = db()->count('support_chat', "is_read = 0 AND sender_type = 'client'");
 $notifUnreadMessages = $stats['unread_messages'];
 $notifAbandoned = $abandonedData['total_abandoned'];
+$notifUnreadWa = db()->count('whatsapp_conversations', "unread > 0");
 
 $todayVisits = db()->fetchAll(
     "SELECT page_visited, COUNT(*) as visits FROM visitors WHERE DATE(visited_at) = CURDATE() GROUP BY page_visited ORDER BY visits DESC LIMIT 10"
@@ -135,8 +136,8 @@ $user = currentUser();
                 </div>
 
                 <div id="notifPanel" class="notif-panel">
-                    <?php if ($notifPendingOrders || $notifPendingPayments || $notifUnreadChat || $notifUnreadMessages || $notifAbandoned): ?>
-                        <div class="notif-header"><i class="fas fa-bell"></i> Notificações <span class="notif-count" id="notifTotal"><?= $notifPendingOrders + $notifPendingPayments + $notifUnreadChat + $notifUnreadMessages + $notifAbandoned ?></span></div>
+                    <?php if ($notifPendingOrders || $notifPendingPayments || $notifUnreadChat || $notifUnreadMessages || $notifAbandoned || $notifUnreadWa): ?>
+                        <div class="notif-header"><i class="fas fa-bell"></i> Notificações <span class="notif-count" id="notifTotal"><?= $notifPendingOrders + $notifPendingPayments + $notifUnreadChat + $notifUnreadMessages + $notifAbandoned + $notifUnreadWa ?></span></div>
                         <div class="notif-grid" id="notifGrid">
                             <a href="orders.php?status=pending" class="notif-card <?= $notifPendingOrders ? '' : 'empty' ?>">
                                 <div class="notif-icon orange"><i class="fas fa-shopping-cart"></i></div>
@@ -157,6 +158,10 @@ $user = currentUser();
                             <a href="abandoned.php" class="notif-card <?= $notifAbandoned ? '' : 'empty' ?>">
                                 <div class="notif-icon pink"><i class="fas fa-cart-arrow-down"></i></div>
                                 <div class="notif-info"><strong id="notifAbandoned"><?= $notifAbandoned ?></strong> Compras abandonadas</div>
+                            </a>
+                            <a href="whatsapp.php" class="notif-card <?= $notifUnreadWa ? '' : 'empty' ?>">
+                                <div class="notif-icon" style="background:rgba(37,211,102,0.12);color:#25d366;"><i class="fab fa-whatsapp"></i></div>
+                                <div class="notif-info"><strong id="notifWa"><?= $notifUnreadWa ?></strong> WhatsApp conversas não lidas</div>
                             </a>
                         </div>
                     <?php else: ?>

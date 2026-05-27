@@ -11,6 +11,7 @@ if ($user['role'] === 'admin') {
     $unreadChat = db()->count('support_chat', "is_read = 0 AND sender_type = 'client'");
     $unreadMessages = db()->count('messages', "status = 'unread'");
     $abandoned = db()->fetchOne("SELECT COUNT(*) as total, COALESCE(SUM(price_monthly), 0) as valor FROM orders WHERE status = 'pending' AND created_at < DATE_SUB(NOW(), INTERVAL 3 DAY)");
+    $unreadWa = db()->count('whatsapp_conversations', "unread > 0");
 
     jsonResponse([
         'role' => 'admin',
@@ -19,9 +20,10 @@ if ($user['role'] === 'admin') {
             ['type' => 'payments', 'icon' => 'fa-credit-card', 'label' => 'Pagamentos por confirmar', 'count' => $pendingPayments, 'url' => 'payments.php?status=pending', 'color' => 'red'],
             ['type' => 'chat', 'icon' => 'fa-comments', 'label' => 'Chat mensagens não lidas', 'count' => $unreadChat, 'url' => 'support-chat.php', 'color' => 'blue'],
             ['type' => 'messages', 'icon' => 'fa-envelope', 'label' => 'Contacto mensagens não lidas', 'count' => $unreadMessages, 'url' => 'messages.php', 'color' => 'purple'],
-            ['type' => 'abandoned', 'icon' => 'fa-cart-arrow-down', 'label' => 'Compras abandonadas', 'count' => intval($abandoned['total'] ?? 0), 'url' => 'abandoned.php', 'color' => 'pink']
+            ['type' => 'abandoned', 'icon' => 'fa-cart-arrow-down', 'label' => 'Compras abandonadas', 'count' => intval($abandoned['total'] ?? 0), 'url' => 'abandoned.php', 'color' => 'pink'],
+            ['type' => 'whatsapp', 'icon' => 'fa-whatsapp', 'label' => 'Conversas WhatsApp não lidas', 'count' => $unreadWa, 'url' => 'whatsapp.php', 'color' => 'green']
         ],
-        'total' => $pendingOrders + $pendingPayments + $unreadChat + $unreadMessages + intval($abandoned['total'] ?? 0)
+        'total' => $pendingOrders + $pendingPayments + $unreadChat + $unreadMessages + intval($abandoned['total'] ?? 0) + $unreadWa
     ]);
 } else {
     $email = $user['email'];

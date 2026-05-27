@@ -45,7 +45,7 @@
     </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Ir para o conte?do principal</a>
+    <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
 
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -559,7 +559,7 @@
             <div class="newsletter-wrapper">
                 <div class="newsletter-text">
                     <h3>Fique por dentro das novidades</h3>
-                    <p>Receba ofertas exclusivas e dicas para o seu neg?cio online.</p>
+                    <p>Receba ofertas exclusivas e dicas para o seu negócio online.</p>
                 </div>
                 <form class="newsletter-form" id="newsletterForm">
                     <input type="email" placeholder="O seu melhor email" required>
@@ -631,7 +631,7 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="js/script.js"></script>
+    <script src="js/script.js?v=2"></script>
     <div id="pageLoader" class="page-loader">
         <div class="loader-spinner">
             <i class="fas fa-circle-notch fa-spin"></i>

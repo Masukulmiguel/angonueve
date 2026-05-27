@@ -1168,13 +1168,34 @@ function getPageKey() {
     if (path.includes('modelos')) return 'models';
     if (path.includes('login')) return 'login';
     if (path.includes('register')) return 'register';
+    if (path.includes('servico.php') || path.includes('servico')) return 'servico';
     return null;
+}
+
+function getServiceSlug() {
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    const slugMap = {
+        'hospedagem': 'servico_hospedagem',
+        'dominios': 'servico_dominios',
+        'email-corporativo': 'servico_email',
+        'criacao-sites': 'servico_criacao-sites'
+    };
+    return slugMap[slug] || null;
 }
 
 function initPageBackground() {
     const page = getPageKey();
     if (!page) return;
-    fetch('api/get-page-bg.php?page=' + page)
+
+    let bgKey = page;
+
+    if (page === 'servico') {
+        const serviceKey = getServiceSlug();
+        if (serviceKey) bgKey = serviceKey;
+    }
+
+    fetch('api/get-page-bg.php?page=' + bgKey)
         .then(res => res.json())
         .then(data => {
             if (data.success && data.url) {
@@ -1186,9 +1207,48 @@ function initPageBackground() {
                 darken.className = 'page-bg-darken';
                 darken.style.cssText = 'position:fixed;inset:0;z-index:-1;background:var(--dark);opacity:0.7;';
                 document.body.prepend(darken);
+
+                if (page === 'home') {
+                    const heroBg = document.querySelector('.hero-bg');
+                    if (heroBg) heroBg.style.background = 'transparent';
+                    document.querySelectorAll('.slide-overlay').forEach(el => {
+                        el.style.background = 'linear-gradient(135deg, rgba(5, 13, 26, 0.5) 0%, rgba(5, 13, 26, 0.3) 50%, rgba(5, 13, 26, 0.15) 100%)';
+                    });
+                    document.querySelectorAll('.slide-bg').forEach(el => {
+                        if (!el.classList.contains('slide-bg-gradient')) {
+                            el.style.opacity = '0.3';
+                        }
+                    });
+                }
             }
         })
         .catch(() => {});
+
+    if (page === 'home') {
+        initSlideBackgrounds();
+    }
+}
+
+function initSlideBackgrounds() {
+    for (let i = 1; i <= 3; i++) {
+        fetch('api/get-page-bg.php?page=slide_' + i)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.url) {
+                    const slides = document.querySelectorAll('.hero-slide');
+                    if (slides[i - 1]) {
+                        const slideBg = slides[i - 1].querySelector('.slide-bg');
+                        if (slideBg) {
+                            slideBg.style.backgroundImage = 'url(' + JSON.stringify(data.url) + ')';
+                            slideBg.style.backgroundSize = 'cover';
+                            slideBg.style.backgroundPosition = 'center';
+                            slideBg.style.opacity = '0.35';
+                        }
+                    }
+                }
+            })
+            .catch(() => {});
+    }
 }
 
 function escHtml(str) {

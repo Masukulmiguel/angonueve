@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <meta property="og:title" content="Contacto - ANGONUEVE">
     <meta property="og:description" content="Contacte a ANGONUEVE para solicitar orçamento de hospedagem, domínios, email corporativo ou criação de sites em Angola.">
     <meta property="og:type" content="website">
@@ -144,6 +145,19 @@
         </div>
     </section>
 
+    <section class="section" style="padding: 60px 0;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-tag">Onde Estamos</span>
+                <h2 class="section-title">A Nossa <span>Localização</span></h2>
+                <p class="section-subtitle">Venha visitar-nos ou encontre-nos no mapa</p>
+            </div>
+            <div class="glass" style="padding: 0; border-radius: 16px; overflow: hidden; height: 400px;" id="mapContainer">
+                <div id="contactMap" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+    </section>
+
     <section class="section" style="background: var(--primary); padding: 60px 0;">
         <div class="container">
             <div class="section-header fade-in" style="margin-bottom: 0;">
@@ -233,7 +247,34 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="js/script.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var mapEl = document.getElementById('contactMap');
+        if (!mapEl) return;
+        fetch('api/get-map-location.php')
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                var map = L.map('contactMap', {
+                    center: [d.lat, d.lng],
+                    zoom: d.zoom || 13,
+                    zoomControl: true,
+                    scrollWheelZoom: true
+                });
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>',
+                    maxZoom: 18
+                }).addTo(map);
+                L.marker([d.lat, d.lng]).addTo(map)
+                    .bindPopup('<b>ANGONUEVE</b><br>' + (d.addr || 'Luanda, Angola'))
+                    .openPopup();
+            })
+            .catch(function() {
+                mapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);"><i class="fas fa-map-marked-alt" style="font-size:2rem;margin-right:8px;"></i> Mapa indisponível</div>';
+            });
+    });
+    </script>
+    <script src="js/script.js?v=2"></script>
 <div id="pageLoader" class="page-loader">
     <div class="loader-spinner">
         <i class="fas fa-circle-notch fa-spin"></i>

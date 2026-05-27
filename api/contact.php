@@ -42,6 +42,16 @@ try {
         'plan_name' => $plan
     ]);
 
+    // Send WhatsApp Cloud API notification
+    try {
+        require_once __DIR__ . '/whatsapp.php';
+        $wa = new WhatsAppCloudAPI();
+        $adminWa = getSetting('whatsapp_number', '244935603163');
+        $wa->sendContactNotification($adminWa, $name, $email, $phone, $subject, $message);
+    } catch (Exception $e) {
+        error_log("WhatsApp contact notification failed: " . $e->getMessage());
+    }
+
     $whatsapp = getSetting('whatsapp_number', '244935603163');
     $whatsappMsg = "Olá ANGONUEVE!%0A";
     $whatsappMsg .= "*Nome:* " . urlencode($name) . "%0A";

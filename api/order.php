@@ -60,6 +60,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             error_log("Email order notification failed: " . $e->getMessage());
         }
 
+        // Send WhatsApp Cloud API notification
+        try {
+            require_once __DIR__ . '/whatsapp.php';
+            $wa = new WhatsAppCloudAPI();
+            $adminWa = getSetting('whatsapp_number', '244935603163');
+            $wa->sendOrderNotification($adminWa, $id, $customerName, $serviceName);
+        } catch (Exception $e) {
+            error_log("WhatsApp order notification failed: " . $e->getMessage());
+        }
+
         jsonResponse([
             'success' => true,
             'order_id' => $id,

@@ -193,7 +193,7 @@ $services = db()->fetchAll("SELECT * FROM services_db WHERE is_active = 1 ORDER 
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="js/script.js"></script>
+    <script src="js/script.js?v=2"></script>
     <div id="pageLoader" class="page-loader">
         <div class="loader-spinner">
             <i class="fas fa-circle-notch fa-spin"></i>

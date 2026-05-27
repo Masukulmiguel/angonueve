@@ -16,7 +16,8 @@ $isEmp = $user && $user['role'] === 'employee';
             $dashNotif = db()->count('orders', "status = 'pending'")
                 + db()->count('payments', "status = 'pending'")
                 + db()->count('support_chat', "is_read = 0 AND sender_type = 'client'")
-                + db()->count('messages', "status = 'unread'");
+                + db()->count('messages', "status = 'unread'")
+                + db()->count('whatsapp_conversations', "unread > 0");
             ?>
             <?php if ($dashNotif > 0): ?>
                 <span class="badge badge-danger" style="margin-left:auto;"><?= $dashNotif ?></span>
@@ -50,6 +51,14 @@ $isEmp = $user && $user['role'] === 'employee';
             <?php endif; ?>
             <?php if (hasPermission('clients')): ?>
             <a href="clients.php" class="<?= $currentPage === 'clients.php' ? 'active' : '' ?>"><i class="fas fa-users"></i> Clientes</a>
+            <?php endif; ?>
+            <?php if (hasPermission('whatsapp')): ?>
+            <a href="whatsapp.php" class="<?= $currentPage === 'whatsapp.php' ? 'active' : '' ?>"><i class="fab fa-whatsapp" style="color:#25d366;"></i> WhatsApp
+                <?php $unreadWaEmp = db()->count('whatsapp_conversations', "unread > 0"); ?>
+                <?php if ($unreadWaEmp > 0): ?>
+                    <span class="badge badge-danger" style="margin-left:auto;"><?= $unreadWaEmp ?></span>
+                <?php endif; ?>
+            </a>
             <?php endif; ?>
             <?php if (hasPermission('activity_log')): ?>
             <a href="activity-log.php" class="<?= $currentPage === 'activity-log.php' ? 'active' : '' ?>"><i class="fas fa-history"></i> Actividades</a>
@@ -93,6 +102,12 @@ $isEmp = $user && $user['role'] === 'employee';
         </a>
         <a href="chat-conversations.php" class="<?= $currentPage === 'chat-conversations.php' ? 'active' : '' ?>"><i class="fas fa-robot"></i> Chatbot</a>
         <a href="settings.php" class="<?= $currentPage === 'settings.php' ? 'active' : '' ?>"><i class="fas fa-cog"></i> Configurações</a>
+        <a href="whatsapp.php" class="<?= $currentPage === 'whatsapp.php' ? 'active' : '' ?>"><i class="fab fa-whatsapp" style="color:#25d366;"></i> WhatsApp
+            <?php $unreadWa = db()->count('whatsapp_conversations', "unread > 0"); ?>
+            <?php if ($unreadWa > 0): ?>
+                <span class="badge badge-danger" style="margin-left:auto;"><?= $unreadWa ?></span>
+            <?php endif; ?>
+        </a>
         <a href="page-backgrounds.php" class="<?= $currentPage === 'page-backgrounds.php' ? 'active' : '' ?>"><i class="fas fa-image"></i> Fundos de Página</a>
         <a href="activity-log.php" class="<?= $currentPage === 'activity-log.php' ? 'active' : '' ?>"><i class="fas fa-history"></i> Actividades</a>
         <a href="payslips.php" class="<?= $currentPage === 'payslips.php' ? 'active' : '' ?>"><i class="fas fa-file-invoice-dollar"></i> Recibos</a>

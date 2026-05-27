@@ -613,6 +613,18 @@ img {
     inset: 0;
 }
 
+.slide-bg-default {
+    background: var(--gradient-1);
+}
+
+.hero-slide:nth-child(2) .slide-bg-default {
+    background: linear-gradient(135deg, #0a1628, #1a0a2e, #0d1b2a);
+}
+
+.hero-slide:nth-child(3) .slide-bg-default {
+    background: linear-gradient(135deg, #0a1628, #0a1a2e, #0d2818);
+}
+
 .slide-bg-pattern {
     position: absolute;
     inset: 0;

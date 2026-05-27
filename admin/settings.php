@@ -34,6 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'smtp_encryption' => sanitize($_POST['smtp_encryption'] ?? 'tls'),
         'mail_from' => sanitize($_POST['mail_from'] ?? ''),
         'mail_from_name' => sanitize($_POST['mail_from_name'] ?? ''),
+        'whatsapp_api_token' => $_POST['whatsapp_api_token'] ?? '',
+        'whatsapp_phone_number_id' => sanitize($_POST['whatsapp_phone_number_id'] ?? ''),
+        'whatsapp_business_account_id' => sanitize($_POST['whatsapp_business_account_id'] ?? ''),
+        'whatsapp_webhook_verify_token' => sanitize($_POST['whatsapp_webhook_verify_token'] ?? ''),
+        'whatsapp_api_version' => sanitize($_POST['whatsapp_api_version'] ?? 'v22.0'),
+        'map_latitude' => sanitize($_POST['map_latitude'] ?? ''),
+        'map_longitude' => sanitize($_POST['map_longitude'] ?? ''),
+        'map_address' => sanitize($_POST['map_address'] ?? ''),
+        'map_zoom' => sanitize($_POST['map_zoom'] ?? '13'),
     ];
     foreach ($updates as $key => $value) {
         updateSetting($key, $value);
@@ -232,6 +241,59 @@ foreach ($rows as $row) {
                                     <label>Nome do Remetente</label>
                                     <input type="text" name="mail_from_name" value="<?= $settings['mail_from_name'] ?? '' ?>" placeholder="ANGONUEVE">
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section" id="mapa">
+                            <h3><i class="fas fa-map-marked-alt" style="color:#00d4ff;"></i> Mapa & Localização</h3>
+                            <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:16px;">Configura as coordenadas do mapa interactivo na página de contacto.</p>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Latitude</label>
+                                    <input type="text" name="map_latitude" value="<?= $settings['map_latitude'] ?? '-8.838333' ?>" placeholder="-8.838333">
+                                </div>
+                                <div class="form-group">
+                                    <label>Longitude</label>
+                                    <input type="text" name="map_longitude" value="<?= $settings['map_longitude'] ?? '13.234444' ?>" placeholder="13.234444">
+                                </div>
+                            </div>
+                            <div class="form-group" style="max-width:500px;">
+                                <label>Morada Completa (exibida no mapa)</label>
+                                <input type="text" name="map_address" value="<?= $settings['map_address'] ?? 'Luanda, Angola' ?>" placeholder="Luanda, Angola">
+                            </div>
+                            <div class="form-group" style="max-width:500px;">
+                                <label>Zoom do Mapa (1-18)</label>
+                                <input type="number" name="map_zoom" value="<?= $settings['map_zoom'] ?? '13' ?>" min="1" max="18" style="max-width:100px;">
+                            </div>
+                        </div>
+
+                        <div class="settings-section" id="whatsapp">
+                            <h3><i class="fab fa-whatsapp" style="color:#25d366;"></i> WhatsApp Cloud API</h3>
+                            <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:16px;">Configura a API oficial do WhatsApp Business para enviar notificações e receber mensagens no painel.</p>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Token de Acesso Permanente</label>
+                                    <input type="password" name="whatsapp_api_token" value="<?= $settings['whatsapp_api_token'] ?? '' ?>" placeholder="EAAT...">
+                                </div>
+                                <div class="form-group">
+                                    <label>ID do Número de Telefone</label>
+                                    <input type="text" name="whatsapp_phone_number_id" value="<?= $settings['whatsapp_phone_number_id'] ?? '' ?>" placeholder="123456789012345">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>ID da Conta Business (WABA)</label>
+                                    <input type="text" name="whatsapp_business_account_id" value="<?= $settings['whatsapp_business_account_id'] ?? '' ?>" placeholder="123456789012345">
+                                </div>
+                                <div class="form-group">
+                                    <label>Versão da API</label>
+                                    <input type="text" name="whatsapp_api_version" value="<?= $settings['whatsapp_api_version'] ?? 'v22.0' ?>" placeholder="v22.0">
+                                </div>
+                            </div>
+                            <div class="form-group" style="max-width:500px;">
+                                <label>Token de Verificação do Webhook</label>
+                                <input type="text" name="whatsapp_webhook_verify_token" value="<?= $settings['whatsapp_webhook_verify_token'] ?? '' ?>" placeholder="Cria um token secreto (ex: angonueve_wa_2026)">
+                                <small style="color:var(--text-muted);font-size:0.72rem;">Usado para verificar o webhook no Meta Developer. URL do webhook: <code style="background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;"><?= SITE_URL ?>/api/whatsapp-webhook.php</code></small>
                             </div>
                         </div>
 

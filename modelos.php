@@ -288,7 +288,7 @@
     </footer>
 
     <button class="scroll-top" id="scrollTop" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
-    <script src="js/script.js"></script>
+    <script src="js/script.js?v=2"></script>
     <script>
     function openOrderModal(btn) {
         const name = btn.getAttribute('data-template');

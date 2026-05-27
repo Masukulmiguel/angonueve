@@ -18,13 +18,28 @@ $pages = [
     'register' => 'Registo Cliente (client/register.php)',
 ];
 
+$slides = [
+    'slide_1' => 'Slide 1 - Hero (Início)',
+    'slide_2' => 'Slide 2 - Hero (Início)',
+    'slide_3' => 'Slide 3 - Hero (Início)',
+];
+
+$servicePages = [
+    'servico_hospedagem'     => 'Serviço: Hospedagem de Sites',
+    'servico_dominios'       => 'Serviço: Registo de Domínios',
+    'servico_email'          => 'Serviço: Email Corporativo',
+    'servico_criacao-sites'  => 'Serviço: Criação de Sites Profissionais',
+];
+
+$allPages = array_merge($pages, $slides, $servicePages);
+
 $error = '';
 $success = '';
 
 // Delete
 if (isset($_GET['delete'])) {
     $page = sanitize($_GET['delete']);
-    if (array_key_exists($page, $pages)) {
+    if (array_key_exists($page, $allPages)) {
         $key = 'page_bg_' . $page;
         $row = db()->fetchOne("SELECT setting_value FROM settings WHERE setting_key = ?", [$key]);
         if ($row && $row['setting_value']) {
@@ -40,7 +55,7 @@ if (isset($_GET['delete'])) {
 // Upload
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['page'])) {
     $page = sanitize($_POST['page']);
-    if (!array_key_exists($page, $pages)) {
+    if (!array_key_exists($page, $allPages)) {
         $error = 'Página inválida.';
     } elseif (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
         $error = 'Seleccione uma imagem válida.';
@@ -73,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['page'])) {
 }
 
 $backgrounds = [];
-foreach ($pages as $key => $label) {
+foreach ($allPages as $key => $label) {
     $val = getSetting('page_bg_' . $key, '');
     $backgrounds[$key] = [
         'label' => $label,
@@ -129,8 +144,74 @@ foreach ($pages as $key => $label) {
 
                 <p style="margin-bottom:20px;color:var(--text-muted);font-size:0.9rem;">Adicione imagens de fundo para cada página do site. Tamanho recomendado: <strong>1920x1080px</strong> ou superior. Formatos: JPG, PNG, WebP, GIF.</p>
 
+                <h3 style="margin:32px 0 12px;font-size:1.1rem;">📄 Páginas</h3>
                 <div class="bg-grid">
-                    <?php foreach ($backgrounds as $key => $bg): ?>
+                    <?php foreach ($pages as $key => $label):
+                        $bg = $backgrounds[$key] ?? ['label' => $label, 'filename' => '', 'url' => '']; ?>
+                    <div class="bg-card">
+                        <div class="bg-card-header">
+                            <h3><?= $bg['label'] ?></h3>
+                            <p>page_bg_<?= $key ?></p>
+                        </div>
+                        <div class="bg-preview">
+                            <?php if ($bg['url']): ?>
+                                <img src="<?= $bg['url'] ?>" alt="Fundo <?= $key ?>">
+                            <?php else: ?>
+                                <div class="no-bg"><i class="fas fa-image"></i> Nenhuma imagem</div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="bg-card-body">
+                            <form method="POST" enctype="multipart/form-data" class="bg-form">
+                                <input type="hidden" name="page" value="<?= $key ?>">
+                                <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/gif" required>
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Upload</button>
+                            </form>
+                            <?php if ($bg['url']): ?>
+                            <div class="bg-actions">
+                                <a href="?delete=<?= $key ?>" class="btn btn-sm btn-danger" onclick="return confirm('Remover fundo desta página?')"><i class="fas fa-trash"></i> Remover</a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <h3 style="margin:32px 0 12px;font-size:1.1rem;">🎠 Slides do Hero (Início)</h3>
+                <div class="bg-grid">
+                    <?php foreach ($slides as $key => $label):
+                        $bg = $backgrounds[$key] ?? ['label' => $label, 'filename' => '', 'url' => '']; ?>
+                    <div class="bg-card">
+                        <div class="bg-card-header">
+                            <h3><?= $bg['label'] ?></h3>
+                            <p>page_bg_<?= $key ?></p>
+                        </div>
+                        <div class="bg-preview">
+                            <?php if ($bg['url']): ?>
+                                <img src="<?= $bg['url'] ?>" alt="Fundo <?= $key ?>">
+                            <?php else: ?>
+                                <div class="no-bg"><i class="fas fa-image"></i> Nenhuma imagem</div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="bg-card-body">
+                            <form method="POST" enctype="multipart/form-data" class="bg-form">
+                                <input type="hidden" name="page" value="<?= $key ?>">
+                                <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/gif" required>
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Upload</button>
+                            </form>
+                            <?php if ($bg['url']): ?>
+                            <div class="bg-actions">
+                                <a href="?delete=<?= $key ?>" class="btn btn-sm btn-danger" onclick="return confirm('Remover fundo desta página?')"><i class="fas fa-trash"></i> Remover</a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <h3 style="margin:32px 0 12px;font-size:1.1rem;">🛠️ Páginas de Serviços</h3>
+                <div class="bg-grid">
+                    <?php foreach ($servicePages as $key => $label):
+                        $bg = $backgrounds[$key] ?? ['label' => $label, 'filename' => '', 'url' => '']; ?>
                     <div class="bg-card">
                         <div class="bg-card-header">
                             <h3><?= $bg['label'] ?></h3>
