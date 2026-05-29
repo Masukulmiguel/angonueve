@@ -273,7 +273,7 @@ $allServices = db()->fetchAll("SELECT * FROM services_db WHERE is_active = 1 AND
                     <span style="margin:0 12px;color:var(--text-muted);">|</span>
                     <a href="termos.php">Termos de Serviço</a>
                     <span style="margin:0 12px;color:var(--text-muted);">|</span>
-                    Feito com <i class="fas fa-heart" style="color: var(--accent);"></i> em Angola
+                    Desenvolvido por SeeFast
                 </p>
             </div>
         </div>
